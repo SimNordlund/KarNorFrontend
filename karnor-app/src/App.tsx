@@ -1,35 +1,42 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './index.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [message, setMessage] = useState<string>(''); // State to hold the message from the Spring Boot API
+
+  useEffect(() => {
+    // Fetch data from the Spring Boot API
+    const fetchMessage = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/test');
+        const data = await response.text(); // Since the endpoint returns plain text
+        setMessage(data); // Update the state with the message
+      } catch (error) {
+        console.error('Error fetching the message:', error);
+      }
+    };
+
+    fetchMessage(); // Call the function when the component mounts
+  }, []); // Empty dependency array to run the effect only once (on mount)
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           Samuel is bejs {count}
         </button>
         <p className='text-4xl text-orange-600'>
-          Måste nu fixa REST XD 
+          Is this bejslife 
         </p>
-        <h4 className="text-3xl font-bold text-blue-600">
-        Welcome to my Tailwind + Vite + React app!
-      </h4>
+        <h1 className="text-3xl font-bold text-green-600 mt-4">
+          {message ? message : 'Loading...'}
+        </h1>
       </div>
     </>
   )
 }
 
-export default App
+export default App;
