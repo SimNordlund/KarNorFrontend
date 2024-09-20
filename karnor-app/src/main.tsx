@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <MenuComponent />
     <HeroComponent />
     <FeatureComponent />
-    <FooterComponent />
     <App />
+    <FooterComponent />
   </BrowserRouter>
 );

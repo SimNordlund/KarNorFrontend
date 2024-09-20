@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import './index.css';
 
 function App() {
-  const [count, setCount] = useState(0);
   const [message, setMessage] = useState<string>(''); // State to hold the message from the Spring Boot API
 
   useEffect(() => {
@@ -23,10 +22,7 @@ function App() {
   return (
     <>
       <div>
-        <button className='text-3xl font-bold text-indigo-800 mt-4' onClick={() => setCount((count) => count + 1)}>
-          Antal buggar: {count}
-        </button>
-        <h1 className="text-3xl font-bold text-indigo-600 mt-4">
+        <h1 className="text-1xl font-bold text-indigo-600 mt-4">
           {message ? message : 'Loading...'}
         </h1>
       </div>
