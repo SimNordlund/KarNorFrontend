@@ -21,7 +21,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function MenuBarComponent() {
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  //const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,7 +53,7 @@ export default function MenuBarComponent() {
         throw new Error("Failed to open the PDF.");
       }
 
-      setPdfUrl(pdfUrl); // Optionally, keep track of the URL in case you want to revoke it later
+      //setPdfUrl(pdfUrl); // Optionally, keep track of the URL in case you want to revoke it later
     } catch (error: any) {
       setError(error.message);
     } finally {

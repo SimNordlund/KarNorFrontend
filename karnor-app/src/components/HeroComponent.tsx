@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-
 export default function HeroComponent() {
   return (
     <div className="bg-white">
