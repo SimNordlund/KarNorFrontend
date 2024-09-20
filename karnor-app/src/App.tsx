@@ -17,8 +17,8 @@ function App() {
       }
     };
 
-    fetchMessage(); // Call the function when the component mounts
-  }, []); // Empty dependency array to run the effect only once (on mount)
+    fetchMessage(); 
+  }, []);
 
   return (
     <>
