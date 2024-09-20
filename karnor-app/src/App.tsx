@@ -4,6 +4,7 @@ import './index.css';
 function App() {
   const [message, setMessage] = useState<string>(''); // State to hold the message from the Spring Boot API
 
+  
   useEffect(() => {
     // Fetch data from the Spring Boot API
     const fetchMessage = async () => {
