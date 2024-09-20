@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import './index.css';
 
 function App() {
@@ -23,18 +23,15 @@ function App() {
   return (
     <>
       <div>
-        <button onClick={() => setCount((count) => count + 1)}>
-          Samuel is bejs {count}
+        <button className='text-3xl font-bold text-indigo-800 mt-4' onClick={() => setCount((count) => count + 1)}>
+          Antal buggar: {count}
         </button>
-        <p className='text-4xl text-orange-600'>
-          Is this bejslife 
-        </p>
-        <h1 className="text-3xl font-bold text-green-600 mt-4">
+        <h1 className="text-3xl font-bold text-indigo-600 mt-4">
           {message ? message : 'Loading...'}
         </h1>
       </div>
     </>
-  )
+  );
 }
 
 export default App;

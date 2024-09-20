@@ -1,10 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css';
-import App from './App.tsx'
+import { BrowserRouter } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import MenuComponent from './components/MenuBarComponent';
+import FooterComponent from './components/FooterComponent';
+import HeroComponent from './components/HeroComponent';
+import FeatureComponent from './components/FeatureComponent';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <BrowserRouter>
+    <MenuComponent />
+    <HeroComponent />
+    <FeatureComponent />
+    <FooterComponent />
     <App />
-  </StrictMode>,
-)
+  </BrowserRouter>
+);
