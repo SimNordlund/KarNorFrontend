@@ -50,7 +50,7 @@ export default function FeatureComponent() {
             src="/wheel.PNG"
             width={2432}
             height={1442}
-            className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-14 lg:-ml-12"
+            className="w-full sm:w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-14 lg:-ml-12"
           />
         </div>
       </div>
