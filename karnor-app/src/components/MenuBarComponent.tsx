@@ -10,10 +10,11 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Startsida', href: '/', current: false },
-  { name: 'Verksamhetsberättelse', href: '#', current: false },
-  { name: 'Kontakt', href: '/', current: false },
-  { name: 'Om Karnor', href: '/AboutUs', current: false },
+  { name: 'Läroplanen för fritids', href: '/', current: false },
+  { name: 'Struktur och regler', href: '#', current: false },
+  { name: 'Processbeskrivning', href: '/', current: false },
+  { name: 'Pedagogiska planeringar', href: '/AboutUs', current: false },
+  { name: 'Skapa goda relationer', href: '/AboutUs', current: false },
 ];
 
 function classNames(...classes: string[]) {
