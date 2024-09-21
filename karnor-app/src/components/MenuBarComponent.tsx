@@ -10,7 +10,7 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Läroplanen för fritids', href: '/', current: false },
+  { name: 'Läroplanen för fritids', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
   { name: 'Struktur och regler', href: '#', current: false },
   { name: 'Processbeskrivning', href: '/', current: false },
   { name: 'Pedagogiska planeringar', href: '/AboutUs', current: false },
