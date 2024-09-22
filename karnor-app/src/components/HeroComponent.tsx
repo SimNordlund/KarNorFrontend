@@ -25,11 +25,11 @@ export default function HeroComponent() {
             </div>
           </div>
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Ett verktyg för läroplansarbete
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            Ett verktyg för fritidshemmets läroplansarbete
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-            Det kan vara utmanande att integrera läroplanen i den praktiska skolvärlden, där teori möter verklighet. Men frukta ej – Karnor är lösningen!
+            Det kan vara utmanande att integrera läroplanen i det praktiska arbetet. Karnor översätter teorin till praktiskt pedagogiskt arbete.
             </p>
           </div>
         </div>

@@ -10,11 +10,14 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Läroplanen för fritids', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
-  { name: 'Struktur och regler', href: '#', current: false },
+  { name: 'Läroplanen', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
+  { name: 'Struktur & regler', href: '#', current: false },
   { name: 'Processbeskrivning', href: '/', current: false },
-  { name: 'Pedagogiska planeringar', href: '/AboutUs', current: false },
-  { name: 'Skapa goda relationer', href: '/AboutUs', current: false },
+  { name: 'Pedagogisk planering', href: '/AboutUs', current: false },
+  { name: 'Relationsskapande', href: '/AboutUs', current: false },
+  { name: 'SPSM ', href: '/AboutUs', current: false },
+  { name: 'Rastaktiviteter', href: '/AboutUs', current: false },
+  
 ];
 
 function classNames(...classes: string[]) {

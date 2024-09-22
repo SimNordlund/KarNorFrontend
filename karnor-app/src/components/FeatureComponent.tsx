@@ -15,7 +15,7 @@ const features = [
     icon: ServerIcon,
   },
   {
-    name: 'Håll koll på aktiviteter.',
+    name: 'Integrerad  läroplan.',
     icon: BookOpenIcon,
   },
   
@@ -31,7 +31,7 @@ export default function FeatureComponent() {
               <h2 className="text-base font-semibold leading-7 text-indigo-600">Årshjulet</h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Enkelt arbetssätt</p>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-                Ett simpelt och enkelt verktyg. Integrera läroplanen och få guidning. Årshjulet är för tillfället under utveckling. Kommer lanceras inom kort.
+                Ett simpelt och enkelt verktyg. Integrera läroplanen och få guidning. Årshjulet är för tillfället under utveckling. Kommer lanseras inom kort.
               </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (
