@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, BookOpenIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
+import { ChevronDownIcon, HomeIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
+import {
+  ArrowPathIcon,
+  ChartPieIcon,
+  CursorArrowRaysIcon,
+  FingerPrintIcon,
+  SquaresPlusIcon,
+} from '@heroicons/react/24/outline';
 
 // Define the type for navigation items
 type NavigationItem = {
@@ -10,14 +19,22 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Läroplanen', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
-  { name: 'Struktur & regler', href: '#', current: false },
-  { name: 'Processbeskrivning', href: '/', current: false },
-  { name: 'Pedagogisk planering', href: '/AboutUs', current: false },
-  { name: 'Relationsskapande', href: '/AboutUs', current: false },
-  { name: 'SPSM ', href: '/AboutUs', current: false },
-  { name: 'Rastaktiviteter', href: '/AboutUs', current: false },
-  
+  { name: 'Årshjulet', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
+  { name: 'Verksamhetsberättelse', href: '#', current: false },
+  { name: 'Struktur & regler', href: '/struktur&regler', current: false },
+];
+
+const Meny = [
+  { name: 'Rastaktiviteter', description: 'Läs mer om rastaktiviteter', href: '#', icon: ChartPieIcon },
+  { name: 'Relationsskapande', description: 'Skapa goda relationer', href: '#', icon: BookOpenIcon },
+  { name: 'Pedagogisk planering', description: 'Pedagogiska planeringar för respektive kunskapsområde', href: '#', icon: SquaresPlusIcon },
+  { name: 'Processbeskrivning', description: 'Processbeskrivning för en pedagogisk planering', href: '#', icon: ArrowPathIcon },
+  { name: 'Läroplanen', description: "Läroplanen för fritids", href: '#', icon: FingerPrintIcon },
+  { name: 'SPSM', description: 'Specialpedagogiska skolmyndigheten', href: '#', icon: CursorArrowRaysIcon },
+];
+const callsToAction = [
+  { name: 'Presentation', href: 'https://www.youtube.com/watch?v=XYZ6_n7Mpb0', icon: PlayCircleIcon },
+  { name: 'Kontakt', href: '#', icon: PhoneIcon },
 ];
 
 function classNames(...classes: string[]) {
@@ -25,7 +42,6 @@ function classNames(...classes: string[]) {
 }
 
 export default function MenuBarComponent() {
-  //const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,7 +63,6 @@ export default function MenuBarComponent() {
 
       const blob = await response.blob();
 
-      // Ensure the browser handles the PDF blob correctly
       const pdfUrl = window.URL.createObjectURL(blob);
       const newWindow = window.open(pdfUrl);
 
@@ -56,8 +71,6 @@ export default function MenuBarComponent() {
       } else {
         throw new Error("Failed to open the PDF.");
       }
-
-      //setPdfUrl(pdfUrl); // Optionally, keep track of the URL in case you want to revoke it later
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -83,7 +96,7 @@ export default function MenuBarComponent() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center mb-1">
-                  <p className="text-white text-2xl">Karnor</p>
+                  <a className="text-white text-2xl" href='/'>Karnor</a>
                 </div>
                 <div className="hidden sm:ml-10 sm:block">
                   <div className="flex space-x-4">
@@ -104,11 +117,59 @@ export default function MenuBarComponent() {
                   </div>
                 </div>
               </div>
+              <div>
+              <Popover className="relative">
+                      <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2">
+                        <span>Meny</span>
+                        <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
+                      </PopoverButton>
+                      <PopoverPanel
+                        className="absolute z-10 mt-3 transform -translate-x-1/2 left-1/2 bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                      >
+                        <div className="w-screen max-w-md overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-gray-900/5">
+                          <div className="p-4">
+                            {Meny.map((item) => (
+                              <div
+                                key={item.name}
+                                className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50"
+                              >
+                                <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                  <item.icon
+                                    aria-hidden="true"
+                                    className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
+                                  />
+                                </div>
+                                <div>
+                                  <a href={item.href} className="font-semibold text-gray-900">
+                                    {item.name}
+                                    <span className="absolute inset-0" />
+                                  </a>
+                                  <p className="mt-1 text-gray-600">{item.description}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                            {callsToAction.map((item) => (
+                              <a
+                                key={item.name}
+                                href={item.href}
+                                className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
+                              >
+                                <item.icon aria-hidden="true" className="h-5 w-5 flex-none text-gray-400" />
+                                {item.name}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </PopoverPanel>
+                    </Popover>
+              </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button type="button" className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white">
+                <a  href='/' className="relative rounded-full bg-blue-600 p-1 text-gray-200 hover:text-white">
                   <span className="sr-only">View notifications</span>
-                  <BookOpenIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                  <HomeIcon className="h-6 w-6" aria-hidden="true" />
+                </a>
               </div>
             </div>
           </div>
@@ -125,6 +186,21 @@ export default function MenuBarComponent() {
                     'block rounded-md px-3 py-2 text-base font-medium'
                   )}
                   aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
+
+              {/* Display the Meny items in the mobile version */}
+              {Meny.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block rounded-md px-3 py-2 text-base font-medium'
+                  )}
                 >
                   {item.name}
                 </Disclosure.Button>
