@@ -19,7 +19,7 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Årshjulet', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
+  { name: 'Årshjulet', href: '/wheel.PNG', current: false },
   { name: 'Verksamhetsberättelse', href: '#', current: false },
   { name: 'Struktur & regler', href: '/struktur&regler', current: false },
 ];
