@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, BookOpenIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
-import { ChevronDownIcon, HomeIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
+import { ChevronDownIcon, HomeIcon, PhoneIcon, PlayCircleIcon, ScaleIcon } from '@heroicons/react/20/solid';
 import {
   ArrowPathIcon,
   ChartPieIcon,
@@ -21,20 +21,21 @@ type NavigationItem = {
 const navigation: NavigationItem[] = [
   { name: 'Årshjulet', href: '/wheel.PNG', current: false },
   { name: 'Verksamhetsberättelse', href: '#', current: false },
-  { name: 'Struktur & regler', href: '/struktur&regler', current: false },
+  { name: 'Om Karnor', href: '/about', current: false },
 ];
 
 const Meny = [
+  { name: 'Struktur & regler', description: 'Verksamhetens struktur och regler', href: '/struktur&regler', icon: ScaleIcon },
+  { name: 'Pedagogisk planering', description: 'För respektive kunskapsområde', href: '/planering', icon: SquaresPlusIcon },
   { name: 'Rastaktiviteter', description: 'Läs mer om rastaktiviteter', href: '/404', icon: ChartPieIcon },
   { name: 'Relationsskapande', description: 'Skapa goda relationer', href: '/404', icon: BookOpenIcon },
-  { name: 'Pedagogisk planering', description: 'Pedagogiska planeringar för respektive kunskapsområde', href: '/404', icon: SquaresPlusIcon },
   { name: 'Processbeskrivning', description: 'Processbeskrivning för en pedagogisk planering', href: '/404', icon: ArrowPathIcon },
   { name: 'Läroplanen', description: "Läroplanen för fritids", href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', icon: FingerPrintIcon },
   { name: 'SPSM', description: 'Specialpedagogiska skolmyndigheten', href: 'https://www.spsm.se/', icon: CursorArrowRaysIcon },
 ];
 const callsToAction = [
   { name: 'Presentation', href: 'https://www.youtube.com/watch?v=XYZ6_n7Mpb0', icon: PlayCircleIcon },
-  { name: 'Kontakt', href: '#', icon: PhoneIcon },
+  { name: 'Kontakt', href: '/about', icon: PhoneIcon },
 ];
 
 function classNames(...classes: string[]) {

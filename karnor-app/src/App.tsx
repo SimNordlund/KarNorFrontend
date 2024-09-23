@@ -4,6 +4,8 @@ import Home from './Home';
 import StrukturRegler from './StrukturRegler'
 import MenuBarComponent from './components/MenuBarComponent';
 import NotFound from './NotFound';
+import Planering from './Planering';
+import About from './About';
 
 function App() {
 
@@ -13,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/struktur&regler" element={<StrukturRegler />} />
+        <Route path="/planering" element={<Planering />} />
+        <Route path="/about" element={<About />} />
         <Route path="/404" element={<NotFound />} />
       </Routes>
     </>

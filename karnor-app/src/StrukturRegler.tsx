@@ -1,12 +1,12 @@
 import StrukturComponent from './components/StrukturComponent';
-import SkrytComponent from './components/SkrytComponent';
+import FooterComponent from './components/FooterComponent';
 
 function StrukturRegler() {
 
   return (
     <>
     <StrukturComponent />
-    <SkrytComponent />
+    <FooterComponent />
     </>
   );
 }
