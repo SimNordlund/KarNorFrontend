@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import StrukturRegler from './StrukturRegler'
 import MenuBarComponent from './components/MenuBarComponent';
+import NotFound from './NotFound';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/struktur&regler" element={<StrukturRegler />} />
+        <Route path="/404" element={<NotFound />} />
       </Routes>
     </>
   );

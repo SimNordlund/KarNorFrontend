@@ -25,12 +25,12 @@ const navigation: NavigationItem[] = [
 ];
 
 const Meny = [
-  { name: 'Rastaktiviteter', description: 'Läs mer om rastaktiviteter', href: '#', icon: ChartPieIcon },
-  { name: 'Relationsskapande', description: 'Skapa goda relationer', href: '#', icon: BookOpenIcon },
-  { name: 'Pedagogisk planering', description: 'Pedagogiska planeringar för respektive kunskapsområde', href: '#', icon: SquaresPlusIcon },
-  { name: 'Processbeskrivning', description: 'Processbeskrivning för en pedagogisk planering', href: '#', icon: ArrowPathIcon },
-  { name: 'Läroplanen', description: "Läroplanen för fritids", href: '#', icon: FingerPrintIcon },
-  { name: 'SPSM', description: 'Specialpedagogiska skolmyndigheten', href: '#', icon: CursorArrowRaysIcon },
+  { name: 'Rastaktiviteter', description: 'Läs mer om rastaktiviteter', href: '/404', icon: ChartPieIcon },
+  { name: 'Relationsskapande', description: 'Skapa goda relationer', href: '/404', icon: BookOpenIcon },
+  { name: 'Pedagogisk planering', description: 'Pedagogiska planeringar för respektive kunskapsområde', href: '/404', icon: SquaresPlusIcon },
+  { name: 'Processbeskrivning', description: 'Processbeskrivning för en pedagogisk planering', href: '/404', icon: ArrowPathIcon },
+  { name: 'Läroplanen', description: "Läroplanen för fritids", href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', icon: FingerPrintIcon },
+  { name: 'SPSM', description: 'Specialpedagogiska skolmyndigheten', href: 'https://www.spsm.se/', icon: CursorArrowRaysIcon },
 ];
 const callsToAction = [
   { name: 'Presentation', href: 'https://www.youtube.com/watch?v=XYZ6_n7Mpb0', icon: PlayCircleIcon },
@@ -118,7 +118,7 @@ export default function MenuBarComponent() {
                 </div>
               </div>
               <div>
-              <Popover className="relative">
+              <Popover className="relative hidden sm:block">
                       <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2">
                         <span>Meny</span>
                         <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
