@@ -51,7 +51,9 @@ export default function MenuBarComponent() {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:8080/downloadPdf/1`, {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+      const response = await fetch(`${API_BASE_URL}/downloadPdf/1`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/pdf',
