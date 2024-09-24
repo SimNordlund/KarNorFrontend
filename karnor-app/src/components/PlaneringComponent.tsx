@@ -2,25 +2,25 @@ import { ArrowPathIcon, CloudArrowUpIcon, FingerPrintIcon, LockClosedIcon } from
 
 const features = [
   {
-    name: 'Struktur',
+    name: 'Språk och kommunikation',
     description:
-      'Exempeltext som beskriver dokumentet. Exempeltext som beskriver dokumentet/länken. Exempeltext som beskriver dokumentet/länken.',
+      'Exempeltext',
     icon: CloudArrowUpIcon,
   },
   {
-    name: 'Regler',
+    name: 'Skapande och estetiska uttrycksformer',
     description:
-      'Exempeltext. Exempeltext som beskriver dokumentet/länken.. Exempeltext som beskriver dokumentet/länken.',
+      'Exempeltext.',
     icon: LockClosedIcon,
   },
   {
-    name: 'Struktur ute',
+    name: 'Natur och skapande',
     description:
       'Exempeltext',
     icon: ArrowPathIcon,
   },
   {
-    name: 'Regler inne',
+    name: 'Lekar, fysiska aktiviteter och utevistelse',
     description:
       'Exempeltext',
     icon: FingerPrintIcon,
@@ -36,7 +36,7 @@ export default function PlaneringComponent() {
           Färdiga pedagogiska planeringar för respektive kunskapsområde och centrala innehåll
           </p>
           <p className="mt-5 text-lg leading-8 text-gray-600">
-            Nedan hittar du länkar till respektive fil. Klicka på knapparna.
+          Exempeltext
           </p>
         </div>
         <div className="mx-auto mt- max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">

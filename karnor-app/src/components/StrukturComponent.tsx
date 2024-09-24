@@ -4,23 +4,23 @@ const features = [
   {
     name: 'Struktur',
     description:
-      'Exempeltext som beskriver dokumentet. Exempeltext som beskriver dokumentet/länken. Exempeltext som beskriver dokumentet/länken.',
+      'Exempeltext',
     icon: CloudArrowUpIcon,
   },
   {
-    name: 'Regler',
+    name: 'Trygghet',
     description:
-      'Exempeltext. Exempeltext som beskriver dokumentet/länken.. Exempeltext som beskriver dokumentet/länken.',
+      'Exempeltext.',
     icon: LockClosedIcon,
   },
   {
-    name: 'Struktur ute',
+    name: 'Regler inne',
     description:
       'Exempeltext',
     icon: ArrowPathIcon,
   },
   {
-    name: 'Regler inne',
+    name: 'Regler ute',
     description:
       'Exempeltext',
     icon: FingerPrintIcon,
@@ -36,7 +36,7 @@ export default function Example() {
           Verksamhetens struktur och regler
           </p>
           <p className="mt-5 text-lg leading-8 text-gray-600">
-            Nedan hittar du länkar till respektive fil. Klicka på knapparna.
+          Exempeltext
           </p>
         </div>
         <div className="mx-auto mt- max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
