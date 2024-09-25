@@ -53,7 +53,7 @@ export default function MenuBarComponent() {
     try {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-      const response = await fetch(`${API_BASE_URL}/downloadPdf/1`, {
+      const response = await fetch(`${API_BASE_URL}/downloadPdfByFileName/verksamhetsberättelse.pdf`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/pdf',
