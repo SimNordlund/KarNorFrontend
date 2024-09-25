@@ -123,7 +123,7 @@ export default function MenuBarComponent() {
               <div>
               <Popover className="relative hidden sm:block">
                       <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2">
-                        <span>Meny</span>
+                        <span>Meny och verktyg</span>
                         <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
                       </PopoverButton>
                       <PopoverPanel

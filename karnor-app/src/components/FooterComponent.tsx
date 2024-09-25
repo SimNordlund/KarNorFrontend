@@ -1,4 +1,4 @@
-import { CalendarDaysIcon, HeartIcon } from '@heroicons/react/24/outline'
+import { CalendarDaysIcon, HeartIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
 
 export default function FooterComponent() {
   return (
@@ -34,18 +34,29 @@ export default function FooterComponent() {
                 <CalendarDaysIcon className="h-6 w-6 text-white" aria-hidden="true" />
               </div>
               <dt className="mt-4 font-semibold text-white">Information om uppdatering</dt>
-              <dd className="mt-2 leading-7 text-gray-400">
-              Få mejl och håll dig uppdaterad.
-              </dd>
+              <dd className="mt-2 leading-7 text-gray-400">Få mejl och håll dig uppdaterad.</dd>
             </div>
             <div className="flex flex-col items-start">
               <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
                 <HeartIcon className="h-6 w-6 text-white" aria-hidden="true" />
               </div>
               <dt className="mt-4 font-semibold text-white">Kvalificerat läroplansarbete</dt>
-              <dd className="mt-2 leading-7 text-gray-400">
-                Skolvärldens bästa verktyg.
-              </dd>
+              <dd className="mt-2 leading-7 text-gray-400">Skolvärldens bästa verktyg.</dd>
+            </div>
+            {/* Contact Information Section */}
+            <div className="flex flex-col items-start">
+              <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+                <PhoneIcon className="h-6 w-6 text-white" aria-hidden="true" />
+              </div>
+              <dt className="mt-4 font-semibold text-white">Telefon</dt>
+              <dd className="mt-2 leading-7 text-gray-400">070-378 66 XX</dd>
+            </div>
+            <div className="flex flex-col items-start">
+              <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+                <EnvelopeIcon className="h-6 w-6 text-white" aria-hidden="true" />
+              </div>
+              <dt className="mt-4 font-semibold text-white">Email </dt>
+              <dd className="mt-2 leading-7 text-gray-400">karnor@test.se</dd>
             </div>
           </dl>
         </div>
@@ -60,5 +71,5 @@ export default function FooterComponent() {
         />
       </div>
     </div>
-  )
+  );
 }
