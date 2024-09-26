@@ -127,27 +127,27 @@ export default function MenuBarComponent() {
                         <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
                       </PopoverButton>
                       <PopoverPanel
-                        className="absolute z-10 mt-3 transform -translate-x-1/2 left-1/2 bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                        className="absolute z-10 mt-3 transform -translate-x-1/2 left-/3 bg-white shadow-lg ring-1 ring-black ring-opacity-5"
                       >
-                        <div className="w-screen max-w-md overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-gray-900/5">
+                        <div className="w-screen max-w-fit overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-gray-900/5">
                           <div className="p-4">
                             {Meny.map((item) => (
                               <div
                                 key={item.name}
-                                className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50"
+                                className="group relative flex gap-x-2 rounded-lg p-2 hover:bg-gray-100"
                               >
-                                <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-100 group-hover:bg-white">
                                   <item.icon
                                     aria-hidden="true"
-                                    className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
+                                    className="h-6 w-6 text-gray-600 group-hover:text-indigo-700"
                                   />
                                 </div>
                                 <div>
-                                  <a href={item.href} className="font-semibold text-gray-900">
+                                  <a href={item.href} className="font-semibold text-sm text-gray-900">
                                     {item.name}
                                     <span className="absolute inset-0" />
                                   </a>
-                                  <p className="mt-1 text-gray-600">{item.description}</p>
+                                  <p className="mt-1 text-gray-600 text-xs">{item.description}</p>
                                 </div>
                               </div>
                             ))}
@@ -157,9 +157,9 @@ export default function MenuBarComponent() {
                               <a
                                 key={item.name}
                                 href={item.href}
-                                className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
+                                className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100 text-sm"
                               >
-                                <item.icon aria-hidden="true" className="h-5 w-5 flex-none text-gray-400" />
+                                <item.icon aria-hidden="true" className="h-6 w-6 flex-none text-gray-400" />
                                 {item.name}
                               </a>
                             ))}
