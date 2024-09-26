@@ -19,7 +19,7 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Årshjulet', href: '/wheel.PNG', current: false },
+  { name: 'Årshjulet', href: '/wheel', current: false },
   { name: 'Verksamhetsberättelse', href: '#', current: false },
   { name: 'Om Karnor', href: '/about', current: false },
 ];
