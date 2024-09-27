@@ -3,19 +3,19 @@ import { AcademicCapIcon, LightBulbIcon,  PencilIcon } from '@heroicons/react/24
 const features = [
   {
     name: 'Inkluderande fritidspedagogik',
-    description: 'Exempeltext.',
+    description: 'Av: Peter Karlsudd, 2022.',
     icon: AcademicCapIcon,
     fileName: 'spsm2.pdf'
   },
   {
     name: 'Elevers delaktighet i fritidshem',
-    description: 'Exempeltext',
+    description: 'Av: Helene Elvstrand, 2022',
     icon: LightBulbIcon,
     fileName: 'spsm3.pdf'
   },
   {
     name: 'Fritidshemslärarens erfarenheter av extra anspassningar och särskilt stöd i fritidshemmet',
-    description: 'Exempeltext',
+    description: 'Av: Marina Wernholm, 2022',
     icon: PencilIcon,
     fileName: 'spsm1.pdf' // Corresponding file name for the feature
   },
