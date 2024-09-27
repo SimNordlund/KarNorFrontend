@@ -19,19 +19,19 @@ type NavigationItem = {
 };
 
 const navigation: NavigationItem[] = [
-  { name: 'Årshjulet', href: '/wheel', current: false },
-  { name: 'Verksamhetsberättelse', href: '#', current: false },
+  { name: 'Läroplanen', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
+  { name: 'SPSM', href: '/spsm', current: false },
   { name: 'Om Karnor', href: '/about', current: false },
 ];
 
 const Meny = [
-  { name: 'Struktur & regler', description: 'Verksamhetens struktur och regler', href: '/struktur&regler', icon: ScaleIcon },
+  { name: 'Årshjulet', description: "Verktyget årshulet", href: '/wheel', icon: FingerPrintIcon },
+  { name: 'Verksamhetsberättelse', description: 'Årets verksamhetsberättelse', href: '#', icon: CursorArrowRaysIcon },
   { name: 'Pedagogisk planering', description: 'För respektive kunskapsområde', href: '/planering', icon: SquaresPlusIcon },
+  { name: 'Struktur & regler', description: 'Verksamhetens struktur och regler', href: '/struktur&regler', icon: ScaleIcon },
+  { name: 'Processbeskrivning', description: 'Processbeskrivning för en pedagogisk planering', href: '/404', icon: ArrowPathIcon },
   { name: 'Rastaktiviteter', description: 'Läs mer om rastaktiviteter', href: '/404', icon: ChartPieIcon },
   { name: 'Relationsskapande', description: 'Skapa goda relationer', href: '/404', icon: BookOpenIcon },
-  { name: 'Processbeskrivning', description: 'Processbeskrivning för en pedagogisk planering', href: '/404', icon: ArrowPathIcon },
-  { name: 'Läroplanen', description: "Läroplanen för fritids", href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', icon: FingerPrintIcon },
-  { name: 'SPSM', description: 'Specialpedagogiska skolmyndigheten', href: 'https://www.spsm.se/', icon: CursorArrowRaysIcon },
 ];
 const callsToAction = [
   { name: 'Presentation', href: 'https://www.youtube.com/watch?v=XYZ6_n7Mpb0', icon: PlayCircleIcon },
@@ -107,7 +107,7 @@ export default function MenuBarComponent() {
                       <a
                         key={item.name}
                         href={item.href}
-                        onClick={item.name === 'Verksamhetsberättelse' ? handleDownloadPdf : undefined}
+                        onClick={item.name === 'Verksamhetsberättelse' ? handleDownloadPdf : undefined} /* Ta bort sen vid behov */
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
@@ -143,7 +143,10 @@ export default function MenuBarComponent() {
                                   />
                                 </div>
                                 <div>
-                                  <a href={item.href} className="font-semibold text-sm text-gray-900">
+                                  <a href={item.href} 
+                                     key={item.name}
+                                     onClick={item.name === 'Verksamhetsberättelse' ? handleDownloadPdf : undefined}
+                                  className="font-semibold text-sm text-gray-900">
                                     {item.name}
                                     <span className="absolute inset-0" />
                                   </a>
