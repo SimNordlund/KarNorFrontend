@@ -40,16 +40,25 @@ export default function SkrytComponent() {
 
       <div className="mx-auto max-w-7xl">
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-lg shadow-indigo-950/5 sm:p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-6 lg:items-center">
-            <div className="flex justify-center lg:col-span-1 lg:justify-start">
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
+            <div
+              className="mx-auto shrink-0 sm:mx-0"
+              style={{ width: "88px", maxWidth: "88px" }}
+            >
               <img
                 alt="Karin Nordlund"
                 src="CEO.jpg"
-                className="h-24 w-24 rounded-full object-cover ring-4 ring-indigo-50 sm:h-28 sm:w-28 lg:h-32 lg:w-32"
+                className="rounded-full object-cover ring-4 ring-indigo-50"
+                style={{
+                  width: "88px",
+                  height: "88px",
+                  maxWidth: "88px",
+                  maxHeight: "88px",
+                }}
               />
             </div>
 
-            <div className="text-center lg:col-span-5 lg:text-left">
+            <div className="min-w-0 flex-1 text-center sm:text-left">
               <div className="inline-flex items-center gap-2 rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700 ring-1 ring-indigo-100">
                 <SparklesIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" />
                 Lite skryt, ganska välförtjänt
@@ -59,7 +68,7 @@ export default function SkrytComponent() {
                 <blockquote className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                   <p>“Det finns få som kan klå Karnor. Ödet var min väg.”</p>
                 </blockquote>
-                <figcaption className="mt-4 flex flex-wrap items-center justify-center gap-3 text-base lg:justify-start">
+                <figcaption className="mt-4 flex flex-wrap items-center justify-center gap-3 text-base sm:justify-start">
                   <span className="font-semibold text-gray-900">Karin Nordlund</span>
                   <span className="h-1.5 w-1.5 rounded-full bg-indigo-600" aria-hidden="true" />
                   <span className="text-gray-600">VD över Karnor</span>
