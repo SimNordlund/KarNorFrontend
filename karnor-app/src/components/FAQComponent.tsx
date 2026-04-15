@@ -46,19 +46,19 @@ const principles = [
   "Tydliga steg för arbetslag och ledning",
 ];
 
-interface FaqsCardProps {
+interface FaqCardProps {
   item: FaqItem;
   idx: number;
   isOpen: boolean;
   onToggle: () => void;
 }
 
-const FaqsCard: React.FC<FaqsCardProps> = ({ item, idx, isOpen, onToggle }) => {
+function FaqCard({ item, idx, isOpen, onToggle }: FaqCardProps) {
   return (
     <article
-      className={`overflow-hidden rounded-lg border bg-white transition-all duration-300 ${
+      className={`rounded-lg border bg-white transition duration-200 ${
         isOpen
-          ? "border-indigo-200 shadow-lg shadow-indigo-600/10"
+          ? "border-indigo-200 shadow-lg shadow-indigo-950/10"
           : "border-gray-200 shadow-sm hover:border-indigo-200 hover:shadow-md"
       }`}
     >
@@ -80,13 +80,13 @@ const FaqsCard: React.FC<FaqsCardProps> = ({ item, idx, isOpen, onToggle }) => {
             <span className="inline-flex rounded-md bg-pink-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-pink-700 ring-1 ring-pink-100">
               {item.tag}
             </span>
-            <span className="mt-2 block text-lg font-bold leading-7 text-gray-900 sm:text-xl">
+            <span className="mt-2 block text-lg font-bold leading-7 text-gray-900">
               {item.q}
             </span>
           </span>
         </span>
         <ChevronDownIcon
-          className={`mt-2 h-5 w-5 shrink-0 text-gray-500 transition-transform duration-300 ${
+          className={`mt-2 h-5 w-5 shrink-0 text-gray-500 transition-transform duration-200 ${
             isOpen ? "rotate-180 text-indigo-600" : ""
           }`}
           aria-hidden="true"
@@ -99,93 +99,83 @@ const FaqsCard: React.FC<FaqsCardProps> = ({ item, idx, isOpen, onToggle }) => {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="px-5 pb-6 text-base leading-7 text-gray-600 sm:px-20">
+          <p className="px-5 pb-6 text-base leading-7 text-gray-600 sm:pl-20 sm:pr-6">
             {item.a}
           </p>
         </div>
       </div>
     </article>
   );
-};
+}
 
-const FAQComponent: React.FC = () => {
+export default function FAQComponent() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="relative isolate overflow-hidden bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-      >
-        <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72rem]"
-          style={{
-            clipPath:
-              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-          }}
-        />
-      </div>
-
+    <section className="bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
+        <div className="border-b border-gray-200 pb-12">
+          <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm">
               <SparklesIcon className="h-4 w-4 text-pink-100" aria-hidden="true" />
               Om Karnor
             </div>
-            <h1 className="mt-6 max-w-3xl text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
               Mindre krångel. Mer riktning. Snyggare skolvardag.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-gray-600">
-              Karnor är platsen där planering, struktur och fritidshemmets kraft får en form som känns modern, tydlig och enkel att använda.
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Karnor gör planering, struktur och läroplansarbete tydligare utan att tappa fart i vardagen.
             </p>
-
-            <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              {principles.map((principle) => (
-                <div
-                  key={principle}
-                  className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
-                >
-                  <CheckCircleIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
-                  <p className="mt-3 text-sm font-semibold leading-6 text-gray-900">
-                    {principle}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <a
-              href="mailto:karnor@test.se"
-              className="mt-8 inline-flex items-center gap-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
-            >
-              Skicka en fråga
-              <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
-            </a>
           </div>
 
-          <div>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {principles.map((principle) => (
+              <div
+                key={principle}
+                className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+              >
+                <CheckCircleIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
+                <p className="mt-3 text-sm font-semibold leading-6 text-gray-900">
+                  {principle}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-10 pt-12 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+          <div className="lg:sticky lg:top-8">
             <p className="text-base font-semibold leading-7 text-indigo-600">
               Vanliga frågor
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Svar utan onödigt brus.
             </h2>
-            <div className="mt-8 space-y-4">
-              {faqsList.map((item, idx) => (
-                <FaqsCard
-                  key={item.q}
-                  item={item}
-                  idx={idx}
-                  isOpen={openIndex === idx}
-                  onToggle={() => setOpenIndex(openIndex === idx ? -1 : idx)}
-                />
-              ))}
-            </div>
+            <p className="mt-4 text-base leading-7 text-gray-600">
+              Här är det viktigaste om Karnor, verktygen och tanken bakom.
+            </p>
+            <a
+              href="mailto:karnor@test.se"
+              className="mt-7 inline-flex items-center gap-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
+            >
+              Skicka en fråga
+              <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
+            </a>
+          </div>
+
+          <div className="space-y-4">
+            {faqsList.map((item, idx) => (
+              <FaqCard
+                key={item.q}
+                item={item}
+                idx={idx}
+                isOpen={openIndex === idx}
+                onToggle={() => setOpenIndex(openIndex === idx ? -1 : idx)}
+              />
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default FAQComponent;
+}
