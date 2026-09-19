@@ -1,224 +1,91 @@
 import { useState } from 'react';
-import { Disclosure } from '@headlessui/react';
-import { Bars3Icon, BookOpenIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
-import { ChevronDownIcon, HomeIcon, PhoneIcon, PlayCircleIcon, ScaleIcon } from '@heroicons/react/20/solid';
-import {
-  ArrowPathIcon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-} from '@heroicons/react/24/outline';
+import { Disclosure, DisclosureButton, DisclosurePanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
+import { NavLink, Link } from 'react-router-dom';
+import { ArrowPathIcon, Bars3Icon, BookOpenIcon, ChartPieIcon, ChevronDownIcon, CursorArrowRaysIcon, FingerPrintIcon, PhoneIcon, PlayCircleIcon, ScaleIcon, ShoppingBagIcon, SquaresPlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useShop } from '../shop/ShopContext';
 
-// Define the type for navigation items
-type NavigationItem = {
-  name: string;
-  href: string;
-  current: boolean;
-};
-
-const navigation: NavigationItem[] = [
-  { name: 'Läroplanen', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet', current: false },
-  { name: 'SPSM', href: '/spsm', current: false },
-  { name: 'Om Karnor', href: '/about', current: false },
+const navigation = [
+  { name: 'Materialbutik', href: '/butik' },
+  { name: 'Läroplanen', href: 'https://www.skolverket.se/undervisning/fritidshemmet/laroplan-for-fritidshemmet' },
+  { name: 'SPSM', href: '/spsm' },
+  { name: 'Om Karnor', href: '/about' },
 ];
 
-const Meny = [
-  { name: 'Årshjulet', description: "Verktyget årshulet", href: '/wheel', icon: FingerPrintIcon },
-  { name: 'Verksamhetsberättelse', description: 'Årets verksamhetsberättelse', href: '#', icon: CursorArrowRaysIcon },
+const menu = [
+  { name: 'Årshjulet', description: 'Verktyget årshjulet', href: '/wheel', icon: FingerPrintIcon },
+  { name: 'Verksamhetsberättelse', description: 'Årets verksamhetsberättelse', href: null, icon: CursorArrowRaysIcon },
   { name: 'Pedagogisk planering', description: 'För respektive kunskapsområde', href: '/planering', icon: SquaresPlusIcon },
   { name: 'Struktur & regler', description: 'Verksamhetens struktur och regler', href: '/struktur&regler', icon: ScaleIcon },
   { name: 'Processbeskrivning', description: 'Processbeskrivning för en pedagogisk planering', href: '/404', icon: ArrowPathIcon },
   { name: 'Rastaktiviteter', description: 'Läs mer om rastaktiviteter', href: '/404', icon: ChartPieIcon },
   { name: 'Relationsskapande', description: 'Skapa goda relationer', href: '/404', icon: BookOpenIcon },
 ];
-const callsToAction = [
-  { name: 'Presentation', href: 'https://www.youtube.com/watch?v=XYZ6_n7Mpb0', icon: PlayCircleIcon },
-  { name: 'Kontakt', href: '/about', icon: PhoneIcon },
-];
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+const navClass = ({ isActive }: { isActive: boolean }) => `rounded-md px-3 py-2 text-sm font-medium transition-colors ${isActive ? 'bg-white/10 text-white' : 'text-indigo-100/80 hover:bg-white/10 hover:text-white'}`;
 
 export default function MenuBarComponent() {
-  const [loading, setLoading] = useState<boolean>(false);
+  const { cart, openCart } = useShop();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleDownloadPdf = async () => {
+  async function handleDownloadPdf() {
     setLoading(true);
     setError(null);
-
+    // Open during the click so browsers do not block the PDF after fetching it.
+    const pdfWindow = window.open('about:blank', '_blank');
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-      const response = await fetch(`${API_BASE_URL}/downloadPdfByFileName/verksamhetsberattelse.pdf`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/pdf',
-        },
+      if (!pdfWindow) throw new Error('Tillåt popup-fönster för att öppna verksamhetsberättelsen.');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/downloadPdfByFileName/verksamhetsberattelse.pdf`, {
+        method: 'GET', headers: { 'Content-Type': 'application/pdf' },
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch the PDF.');
-      }
-
-      const blob = await response.blob();
-
-      const pdfUrl = window.URL.createObjectURL(blob);
-      const newWindow = window.open(pdfUrl);
-
-      if (newWindow) {
-        newWindow.focus();
-      } else {
-        throw new Error("Failed to open the PDF.");
-      }
-    } catch (error: any) {
-      setError(error.message);
+      if (!response.ok) throw new Error('Verksamhetsberättelsen kunde inte hämtas. Försök igen senare.');
+      const pdfUrl = URL.createObjectURL(await response.blob());
+      pdfWindow.location.href = pdfUrl;
+      setTimeout(() => URL.revokeObjectURL(pdfUrl), 60000);
+    } catch (downloadError) {
+      pdfWindow?.close();
+      setError(downloadError instanceof Error ? downloadError.message : 'PDF-filen kunde inte öppnas.');
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  return (
-    <Disclosure as="nav" className="bg-indigo-950 sticky top-0 z-50">
-      {({ open }) => (
-        <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center mb-1">
-                  <a className="text-white text-2xl" href='/'>Karnor</a>
-                </div>
-                <div className="hidden sm:ml-10 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        onClick={item.name === 'Verksamhetsberättelse' ? handleDownloadPdf : undefined} /* Ta bort sen vid behov */
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div>
-              <Popover className="relative hidden sm:block">
-                      <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2  border-solid border-2 border-white">
-                        <span>Meny och verktyg</span>
-                        <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
-                      </PopoverButton>
-                      <PopoverPanel
-                        className="absolute z-10 mt-3 transform -translate-x-1/2 left-/3 bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-                      >
-                        <div className="w-screen max-w-fit overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-gray-900/5">
-                          <div className="p-4">
-                            {Meny.map((item) => (
-                              <div
-                                key={item.name}
-                                className="group relative flex gap-x-2 rounded-lg p-2 hover:bg-gray-100"
-                              >
-                                <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-100 group-hover:bg-white">
-                                  <item.icon
-                                    aria-hidden="true"
-                                    className="h-6 w-6 text-gray-600 group-hover:text-indigo-700"
-                                  />
-                                </div>
-                                <div>
-                                  <a href={item.href} 
-                                     key={item.name}
-                                     onClick={item.name === 'Verksamhetsberättelse' ? handleDownloadPdf : undefined}
-                                  className="font-semibold text-sm text-gray-900">
-                                    {item.name}
-                                    <span className="absolute inset-0" />
-                                  </a>
-                                  <p className="mt-1 text-gray-600 text-xs">{item.description}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                            {callsToAction.map((item) => (
-                              <a
-                                key={item.name}
-                                href={item.href}
-                                className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100 text-sm"
-                              >
-                                <item.icon aria-hidden="true" className="h-6 w-6 flex-none text-gray-400" />
-                                {item.name}
-                              </a>
-                            ))}
-                          </div>
-                        </div>
-                      </PopoverPanel>
-                    </Popover>
-              </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a  href='/' className="relative rounded-full bg-blue-600 p-1 text-gray-200 hover:text-white">
-                  <span className="sr-only">View notifications</span>
-                  <HomeIcon className="h-6 w-6" aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pt-2 pb-3">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
-                  )}
-                  aria-current={item.current ? 'page' : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-
-              {/* Display the Meny items in the mobile version */}
-              {Meny.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
-                  )}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-            </div>
-          </Disclosure.Panel>
-
-          {/* Handle loading and error */}
-          {loading && <p>Loading PDF...</p>}
-          {error && <p className="text-red-500">{error}</p>}
-        </>
-      )}
-    </Disclosure>
-  );
+  return <Disclosure as="nav" aria-label="Huvudmeny" className="sticky top-0 z-50 bg-indigo-950 text-white">
+    {({ open }) => <>
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-10">
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-8">
+          <DisclosureButton className="rounded-md p-2 text-indigo-100 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:hidden">
+            <span className="sr-only">{open ? 'Stäng menyn' : 'Öppna menyn'}</span>
+            {open ? <XMarkIcon className="h-6 w-6" aria-hidden="true" /> : <Bars3Icon className="h-6 w-6" aria-hidden="true" />}
+          </DisclosureButton>
+          <Link to="/" aria-label="Karnor – startsida" className="flex items-center gap-2.5 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+            <BookOpenIcon className="hidden h-7 w-7 text-indigo-200 sm:block" aria-hidden="true" /><span className="text-xl tracking-tight sm:text-2xl">Karnor</span>
+          </Link>
+          <div className="hidden items-center gap-1 lg:flex">{navigation.map(item => <NavLink key={item.name} to={item.href} className={navClass}>{item.name}</NavLink>)}</div>
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
+          <Link to="/butik" className="rounded px-1 py-2 text-xs font-medium text-indigo-100 hover:text-white lg:hidden">Materialbutik</Link>
+          <Popover className="relative hidden lg:block">
+            <PopoverButton className="inline-flex items-center gap-2 rounded-md border border-white/25 px-3 py-2 text-xs font-medium text-indigo-100 hover:bg-white/10">Meny och verktyg<ChevronDownIcon className="h-4 w-4" aria-hidden="true" /></PopoverButton>
+            <PopoverPanel className="absolute right-0 z-10 mt-4 w-80 overflow-hidden rounded-xl bg-white text-gray-900 shadow-xl ring-1 ring-black/5">
+              {({ close }) => <><div className="p-3">{menu.map(item => <div key={item.name} className="group relative flex items-center gap-3 rounded-lg p-2.5 hover:bg-indigo-50">
+                <div className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-gray-50 text-gray-500 group-hover:text-indigo-600"><item.icon className="h-5 w-5" aria-hidden="true" /></div>
+                <div>{item.href ? <Link to={item.href} onClick={() => close()} className="text-xs font-semibold">{item.name}<span className="absolute inset-0" /></Link> : <button type="button" disabled={loading} onClick={() => { close(); void handleDownloadPdf(); }} className="text-xs font-semibold">{loading ? 'Hämtar PDF…' : item.name}<span className="absolute inset-0" /></button>}<p className="mt-0.5 text-[10px] text-gray-500">{item.description}</p></div>
+              </div>)}</div><div className="grid grid-cols-2 divide-x border-t bg-gray-50 text-xs font-medium"><a href="https://www.youtube.com/watch?v=XYZ6_n7Mpb0" className="flex items-center justify-center gap-2 p-4 hover:bg-gray-100"><PlayCircleIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />Presentation</a><Link to="/about" onClick={() => close()} className="flex items-center justify-center gap-2 p-4 hover:bg-gray-100"><PhoneIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />Kontakt</Link></div></>}
+            </PopoverPanel>
+          </Popover>
+          <button type="button" onClick={openCart} aria-label={`Öppna varukorgen, ${cart.length} material`} className="relative flex items-center gap-2 rounded-md p-1.5 text-indigo-100 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-2">
+            <ShoppingBagIcon className="h-5 w-5" aria-hidden="true" /><span className="hidden text-xs xl:inline">Varukorg</span><span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-200 px-1 text-[10px] font-semibold text-indigo-950" aria-hidden="true">{cart.length}</span>
+          </button>
+        </div>
+      </div>
+      <DisclosurePanel className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-white/10 px-4 pb-5 pt-3 lg:hidden">
+        <div className="space-y-1">{navigation.map(item => <DisclosureButton key={item.name} as={NavLink} to={item.href} className="block rounded-md px-3 py-2 text-sm text-indigo-100 hover:bg-white/10">{item.name}</DisclosureButton>)}</div>
+        <p className="mb-2 mt-5 px-3 text-[10px] font-semibold uppercase tracking-widest text-indigo-300">Meny och verktyg</p>
+        {menu.map(item => item.href ? <DisclosureButton key={item.name} as={Link} to={item.href} className="block rounded-md px-3 py-2 text-sm text-indigo-100 hover:bg-white/10">{item.name}</DisclosureButton> : <DisclosureButton key={item.name} onClick={() => void handleDownloadPdf()} disabled={loading} className="block rounded-md px-3 py-2 text-left text-sm text-indigo-100 hover:bg-white/10">{loading ? 'Hämtar PDF…' : item.name}</DisclosureButton>)}
+      </DisclosurePanel>
+      {loading && <p role="status" className="px-4 pb-2 text-center text-xs text-indigo-100">Hämtar verksamhetsberättelsen…</p>}
+      {error && <div role="alert" className="flex items-center justify-center gap-3 bg-red-50 px-4 py-2 text-xs text-red-800"><p>{error}</p><button type="button" onClick={() => setError(null)} aria-label="Stäng felmeddelande"><XMarkIcon className="h-4 w-4" /></button></div>}
+    </>}
+  </Disclosure>;
 }
