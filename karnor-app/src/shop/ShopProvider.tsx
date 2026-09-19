@@ -5,7 +5,7 @@ import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, CreditCardIcon, Documen
 import { Link } from 'react-router-dom';
 import { ShopContext } from './ShopContext';
 import type { Material } from './materials';
-import { formatPrice } from './materials';
+import { formatMaterialMeta, formatPrice } from './materials';
 import MaterialCover from './MaterialCover';
 import './shop.css';
 
@@ -64,7 +64,7 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
                 <p className="shop-cart-intro"><DocumentArrowDownIcon aria-hidden="true" /> Digitala material · ingen frakt</p>
                 <ul className="shop-cart-items">{cart.map(item => <li key={item.id}>
                   <div className="shop-cart-cover"><MaterialCover material={item} compact /></div>
-                  <div className="shop-cart-item-copy"><h3>{item.title}</h3><p>PDF · {item.pages} sidor · 1 exemplar</p><strong>{formatPrice(item.price)}</strong></div>
+                  <div className="shop-cart-item-copy"><h3>{item.title}</h3><p>{formatMaterialMeta(item)} · 1 exemplar</p><strong>{formatPrice(item.price)}</strong></div>
                   <button type="button" className="shop-icon-button" onClick={() => setCart(current => current.filter(product => product.id !== item.id))} aria-label={`Ta bort ${item.title}`}><TrashIcon /></button>
                 </li>)}</ul>
                 <div className="shop-cart-total"><span>Totalt</span><strong>{formatPrice(total)}</strong></div>
@@ -92,7 +92,7 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
                 <div className="shop-order-summary"><h3>Dina material</h3>
                   <ul>{cart.map(item => <li key={item.id}><span>{item.title}</span><strong>{formatPrice(item.price)}</strong></li>)}</ul>
                   <div className="shop-cart-total"><span>Totalt</span><strong>{formatPrice(total)}</strong></div>
-                  <p className="shop-small-print">Digitala PDF-material · exempelpriser i SEK</p>
+                  <p className="shop-small-print">Digitala material · exempelpriser i SEK</p>
                   <button type="submit" className="shop-button shop-button--primary shop-button--full" disabled={!cart.length}>Förhandsvisa order <ArrowRightIcon aria-hidden="true" /></button>
                   <p className="shop-small-print shop-centered">Ingen betalning genomförs.</p>
                 </div>
@@ -101,8 +101,8 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
             {view === 'complete' && <div className="shop-complete">
               <span className="shop-empty-icon"><CheckCircleIcon aria-hidden="true" /></span>
               <h3>Så kan din beställning se ut</h3><p>Du har valt {cart.length} material för totalt {formatPrice(total)}. När butiken är lanserad kommer köpta material att kunna laddas ner här.</p>
-              <ul>{cart.map(item => <li key={item.id}><DocumentArrowDownIcon aria-hidden="true" /><span>{item.title}</span><span>PDF</span></li>)}</ul>
-              <p className="shop-checkout-notice">Detta är en demo. Ingen order har skapats, inget belopp har dragits och det finns inga filer att ladda ner ännu.</p>
+              <ul>{cart.map(item => <li key={item.id}><DocumentArrowDownIcon aria-hidden="true" /><span>{item.title}</span><span>{item.format}</span></li>)}</ul>
+              <p className="shop-checkout-notice">Detta är en demo. Ingen order har skapats och inget belopp har dragits. Leverans av köpta material är inte aktiverad ännu.</p>
               <button type="button" className="shop-button shop-button--primary" onClick={() => setView(null)}>Fortsätt utforska</button>
             </div>}
           </DialogPanel>

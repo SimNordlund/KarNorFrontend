@@ -59,6 +59,22 @@ function CoverIllustration({ motif }: { motif: MaterialMotif }) {
 }
 
 export default function MaterialCover({ material, compact = false }: { material: Material; compact?: boolean }) {
+  if (material.image) {
+    return (
+      <div className={`material-cover material-cover--${material.theme} material-cover--image${compact ? ' material-cover--compact' : ''}`} aria-hidden="true">
+        <img
+          className="material-cover-image"
+          src={material.image.src}
+          alt=""
+          width={material.image.width}
+          height={material.image.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`material-cover material-cover--${material.theme}${compact ? ' material-cover--compact' : ''}`} aria-hidden="true">
       <div className="material-cover-paper">
