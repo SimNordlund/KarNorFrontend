@@ -8,6 +8,7 @@ export interface ShopState {
   removeFromCart: (id: string) => void;
   toggleFavorite: (id: string) => void;
   openCart: () => void;
+  completePurchase: (ids: string[]) => void;
 }
 
 export const ShopContext = createContext<ShopState | null>(null);
