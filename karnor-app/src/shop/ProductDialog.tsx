@@ -25,7 +25,7 @@ export default function ProductDialog({ material, onClose }: { material: Materia
                 <img src={material.image.src} alt={material.image.alt} width={material.image.width} height={material.image.height} decoding="async" />
               </a>
               <figcaption>
-                <span>Hela materialet · 1 sida</span>
+                <span>Förhandsvisning av materialet</span>
                 <a className="shop-text-button" href={material.image.src} target="_blank" rel="noopener noreferrer">
                   Öppna i full storlek <ArrowTopRightOnSquareIcon aria-hidden="true" />
                   <span className="sr-only">(öppnas i ny flik)</span>
@@ -44,12 +44,14 @@ export default function ProductDialog({ material, onClose }: { material: Materia
           )}
         </div>
         <div className="shop-product-details">
-          <span className="shop-eyebrow">{material.category}</span><DialogTitle>{material.title}</DialogTitle><p>{material.description}</p>
+          <span className="shop-eyebrow">{material.category}</span><DialogTitle>{material.title}</DialogTitle>
+          {material.subtitle && <p className="shop-product-subtitle">{material.subtitle}</p>}
+          <p className="shop-product-description">{material.description}</p>
           <div className="shop-product-meta"><span><DocumentTextIcon aria-hidden="true" /> {formatMaterialMeta(material)}</span><span>{formatMaterialAge(material)}</span></div>
-          <h3>Det här ingår</h3><ul className="shop-includes">{material.includes.map(item => <li key={item}><CheckIcon aria-hidden="true" />{item}</li>)}</ul>
-          <div className="shop-detail-price"><strong>{formatPrice(material.price)}</strong><span>Exempelpris · digitalt material</span></div>
+          {material.includes.length > 0 && <><h3>Det här ingår</h3><ul className="shop-includes">{material.includes.map((item, index) => <li key={index}><CheckIcon aria-hidden="true" />{item}</li>)}</ul></>}
+          <div className="shop-detail-price"><strong>{formatPrice(material.price)}</strong><span>Digitalt material · SEK</span></div>
           <div className="shop-detail-actions"><button type="button" className="shop-button shop-button--primary" onClick={() => { if (inCart) { onClose(); openCart(); } else { addToCart(material); } }}><ShoppingBagIcon aria-hidden="true" />{inCart ? 'Visa varukorgen' : 'Lägg i varukorg'}</button><button type="button" className={`shop-icon-button shop-favorite ${isFavorite ? 'is-favorite' : ''}`} onClick={() => toggleFavorite(material.id)} aria-pressed={isFavorite} aria-label={isFavorite ? 'Ta bort från favoriter' : 'Spara som favorit'}><HeartIcon /></button></div>
-          <p className="shop-small-print">{material.image ? 'Materialet visas med ett exempelpris.' : 'Exempelmaterial för att visa butikens utseende.'} Köp och nedladdning efter betalning öppnar när butiken lanseras.</p>
+          <p className="shop-small-print">{material.canPurchase ? 'Säljfilen blir tillgänglig på din beställningssida efter bekräftad betalning.' : 'Materialet är inte tillgängligt för köp just nu.'}</p>
         </div>
       </DialogPanel>
     </div>

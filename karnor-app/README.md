@@ -1,4 +1,8 @@
-# React + TypeScript + Vite
+# Karnor
+
+Webbplats, materialbutik och produktadministration. Se [CMS.md](CMS.md) för lokal start, uppladdningar, lagring och Stripe-konfiguration. Administrationssidan finns på `/admin` och butiken på `/butik`.
+
+## Ursprunglig projektinformation: React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
