@@ -30,7 +30,7 @@ const features = [
 export default function PlaneringComponent() {
   const handleDownload = async (fileName: string) => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+      const API_BASE_URL = import.meta.env.MODE === 'kotlin' ? '' : import.meta.env.VITE_API_BASE_URL || '';
       // Construct the URL using the fileName
       const response = await fetch(`${API_BASE_URL}/downloadPdfByFileName/${fileName}`, {
         method: 'GET',

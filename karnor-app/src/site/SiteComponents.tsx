@@ -15,8 +15,7 @@ export function ResourceLink({ title, description, filename }: { title: string; 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   async function download() {
-    const base = import.meta.env.VITE_API_BASE_URL;
-    if (!base) { setError('Dokumentet är inte tillgängligt just nu.'); return; }
+    const base = import.meta.env.MODE === 'kotlin' ? '' : import.meta.env.VITE_API_BASE_URL || '';
     const tab = window.open('about:blank', '_blank');
     setBusy(true); setError('');
     try {
