@@ -48,6 +48,8 @@ export default function Admin() {
   const [catalog, setCatalog] = useState<AdminCatalog | null>(null);
   const [tab, setTab] = useState<'products' | 'categories'>('products');
   const [editing, setEditing] = useState<Material | null>(null);
+  const [priceInput, setPriceInput] = useState('');
+  const [pagesInput, setPagesInput] = useState('');
   const [dirty, setDirty] = useState(false);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('all');
@@ -109,11 +111,22 @@ export default function Admin() {
     if (busy || uploading || (dirty && !window.confirm('Stäng utan att spara dina ändringar?'))) return;
     setEditing(null); setDirty(false); setError('');
   }
-  function edit(product: Material) { setEditing(structuredClone(product)); setDirty(false); setError(''); setNotice(''); }
+  function edit(product: Material) {
+    setEditing(structuredClone(product));
+    setPriceInput(product.price === 0 ? '' : String(product.price));
+    setPagesInput(String(product.pages));
+    setDirty(false); setError(''); setNotice('');
+  }
   async function saveProduct(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!editing || !catalog || uploading) return;
-    const product = { ...editing, coverTitle: editing.title, includes: editing.includes.map(item => item.trim()).filter(Boolean) };
+    const product = {
+      ...editing,
+      price: Number(priceInput),
+      pages: Number(pagesInput),
+      coverTitle: editing.title,
+      includes: editing.includes.map(item => item.trim()).filter(Boolean),
+    };
     const exists = catalog.products.some(item => item.id === product.id);
     const products = exists ? catalog.products.map(item => item.id === product.id ? product : item) : [product, ...catalog.products];
     if (await persist({ ...catalog, products })) { setEditing(null); setDirty(false); }
@@ -186,8 +199,8 @@ export default function Admin() {
               <label>Kort beskrivning<input value={editing.subtitle} maxLength={200} onChange={event => patch({ subtitle: event.target.value })} placeholder="En mening om materialet" /></label>
               <label>Beskrivning<textarea rows={5} value={editing.description} required={editing.status === 'published'} maxLength={6000} onChange={event => patch({ description: event.target.value })} placeholder="Vad innehåller materialet och hur kan det användas?" /></label>
               <label>Det här ingår <span>En punkt per rad</span><textarea rows={4} value={editing.includes.join('\n')} maxLength={6000} onChange={event => patch({ includes: event.target.value.split('\n') })} /></label>
-              <div className="cms-field-pair"><label>Kategori<select value={editing.category} onChange={event => patch({ category: event.target.value })}>{catalog.categories.map(category => <option key={category}>{category}</option>)}</select></label><label>Pris i SEK<input type="number" min="5" max="100000" step="0.01" required value={editing.price} onChange={event => patch({ price: Number(event.target.value) })} /></label></div>
-              <div className="cms-field-pair"><label>Antal sidor<input type="number" min="1" max="10000" step="1" required value={editing.pages} onChange={event => patch({ pages: Number(event.target.value) })} /></label><label>Filformat<select disabled={Boolean(editing.downloadAssetId)} value={editing.format} onChange={event => patch({ format: event.target.value as Material['format'] })}>{['PDF', 'PNG', 'JPG', 'WEBP'].map(format => <option key={format}>{format}</option>)}</select></label></div>
+              <div className="cms-field-pair"><label>Kategori<select value={editing.category} onChange={event => patch({ category: event.target.value })}>{catalog.categories.map(category => <option key={category}>{category}</option>)}</select></label><label>Pris i SEK<input type="number" min="5" max="100000" step="0.01" required value={priceInput} onChange={event => { setPriceInput(event.target.value); setDirty(true); }} /></label></div>
+              <div className="cms-field-pair"><label>Antal sidor<input type="number" min="1" max="10000" step="1" required value={pagesInput} onChange={event => { setPagesInput(event.target.value); setDirty(true); }} /></label><label>Filformat<select disabled={Boolean(editing.downloadAssetId)} value={editing.format} onChange={event => patch({ format: event.target.value as Material['format'] })}>{['PDF', 'PNG', 'JPG', 'WEBP'].map(format => <option key={format}>{format}</option>)}</select></label></div>
               <fieldset className="cms-ages"><legend>Åldersgrupper i butikens filter</legend>{['F–3', '4–6'].map(age => <label key={age}><input type="checkbox" checked={editing.ages.includes(age)} onChange={event => patch({ ages: event.target.checked ? [...editing.ages, age] : editing.ages.filter(item => item !== age) })} /> Åk {age}</label>)}</fieldset>
               <label>Mer exakt ålder <span>Valfritt</span><input value={editing.ageLabel || ''} maxLength={50} onChange={event => patch({ ageLabel: event.target.value })} placeholder="Till exempel 5–6 år" /></label>
             </div><aside className="cms-editor-side">
