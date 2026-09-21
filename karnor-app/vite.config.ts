@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
   server: {
     port: 5173,
@@ -13,8 +13,9 @@ export default defineConfig({
       deny: ['.env', '.env.*', '*.crt', '*.pem', '**/.git/**', '**/server/**'],
     },
     proxy: {
-      '/api': 'http://127.0.0.1:3001',
-      '/media': 'http://127.0.0.1:3001',
+      '/api': mode === 'kotlin' ? 'http://127.0.0.1:8080' : 'http://127.0.0.1:3001',
+      '/media': mode === 'kotlin' ? 'http://127.0.0.1:8080' : 'http://127.0.0.1:3001',
+      ...(mode === 'kotlin' ? { '/downloadPdfByFileName': 'http://127.0.0.1:8080' } : {}),
     },
   },
   root: '.',  // This ensures Vite looks for `index.html` in the root directory
@@ -25,4 +26,4 @@ export default defineConfig({
     },
   },
   assetsInclude: ['**/*.png', '**/*.PNG'],  // This part is fine for including assets
-});
+}));

@@ -1,5 +1,7 @@
 # Karnor CMS och Stripe
 
+Kotlin-backend finns separat i `C:\Users\TaraR\IdeaProjects\KarNor`. Starta den på port 8080 och kör `npm run dev:kotlin` här för att använda dess CMS, media, betalning och äldre PDF-endpoints via Vites proxy. Den vanliga `npm run dev` fortsätter att använda Node-servern. Se backendens `CMS.md` för Kotlin-konfiguration.
+
 Webbplatsen har en React-klient och en Node-server. Servern hanterar produktregistret, administratörens inloggning, filer, Stripe Checkout och betalda nedladdningar. Inga extra npm-beroenden har lagts till. Node 22 eller senare krävs.
 
 ## Lokal konfiguration
