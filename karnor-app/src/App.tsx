@@ -16,13 +16,14 @@ import OrderPage from './shop/OrderPage';
 import Admin from './admin/Admin';
 import IdeaPage from './site/IdeaPage';
 import FooterComponent from './components/FooterComponent';
+import { ContactPage, PrivacyPage, TermsPage } from './legal/LegalPages';
 import './site/site.css';
 
 function RouteState() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-    const titles: Record<string, string> = { '/': 'För fritidshemmets alla möjligheter', '/butik': 'Materialbutik', '/about': 'Om Karnor', '/planering': 'Pedagogisk planering', '/wheel': 'Årshjulet', '/struktur&regler': 'Struktur & regler', '/spsm': 'SPSM', '/admin': 'Administration', '/butik/tack': 'Din beställning' };
+    const titles: Record<string, string> = { '/': 'För fritidshemmets alla möjligheter', '/butik': 'Materialbutik', '/about': 'Om Karnor', '/planering': 'Pedagogisk planering', '/wheel': 'Årshjulet', '/struktur&regler': 'Struktur & regler', '/spsm': 'SPSM', '/admin': 'Administration', '/butik/tack': 'Din beställning', '/kopvillkor': 'Köpvillkor', '/integritet': 'Integritet', '/kontakt': 'Kontakt & reklamation' };
     document.title = `${titles[pathname] || 'Inspiration för fritids'} | Karnor`;
   }, [pathname]);
   return null;
@@ -40,6 +41,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/butik" element={<Shop />} />
         <Route path="/butik/tack" element={<OrderPage />} />
+        <Route path="/kopvillkor" element={<TermsPage />} />
+        <Route path="/integritet" element={<PrivacyPage />} />
+        <Route path="/kontakt" element={<ContactPage />} />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/inspiration/:topic" element={<IdeaPage />} />
         <Route path="/struktur&regler" element={<StrukturRegler />} />

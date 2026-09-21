@@ -168,6 +168,7 @@ async function handle(req, res) {
     if (!checkoutConfigured) fail(503, 'Betalning är tillfälligt inte tillgänglig. Försök igen senare.');
     const input = await json(req);
     if (!Array.isArray(input.productIds) || !input.productIds.length || input.productIds.length > 30 || input.productIds.some(id => typeof id !== 'string') || !/^[a-f0-9-]{36}$/.test(input.requestId || '')) fail(400, 'Kontrollera varukorgen och försök igen.');
+    if (input.acceptedTerms !== true || input.acceptedDigitalDelivery !== true) fail(400, 'Godkänn köpvillkoren och villkoret för omedelbar digital leverans för att fortsätta.');
     let buyer = cookie(req, 'karnor_buyer');
     if (!/^[a-f0-9]{64}$/.test(buyer)) buyer = randomBytes(32).toString('hex');
     setCookie(res, 'karnor_buyer', buyer, purchaseDuration / 1000, 'Lax');
@@ -186,7 +187,12 @@ async function handle(req, res) {
         if (!product || !state.assets[product.downloadAssetId] || state.assets[product.downloadAssetId].kind !== 'file') fail(409, 'Ett material är inte längre tillgängligt. Uppdatera varukorgen.');
         return { id: product.id, title: product.title, format: product.format, price: product.price, amount: Math.round(product.price * 100), assetId: product.downloadAssetId };
       });
-      const created = { id: randomUUID(), buyerHash, requestKey, items, amount: items.reduce((sum, item) => sum + item.amount, 0), status: 'pending', createdAt: new Date().toISOString() };
+      const createdAt = new Date().toISOString();
+      const created = {
+        id: randomUUID(), buyerHash, requestKey, items,
+        amount: items.reduce((sum, item) => sum + item.amount, 0),
+        status: 'pending', createdAt, termsVersion: '2026-09-21', digitalDeliveryConsentAt: createdAt,
+      };
       state.orders[created.id] = created;
       return created;
     });
@@ -194,6 +200,7 @@ async function handle(req, res) {
     if (order.checkoutUrl) fail(409, 'Betalningssessionen har gått ut. Stäng varukorgen och försök igen.');
     const params = new URLSearchParams({
       mode: 'payment', locale: 'sv',
+      'payment_method_types[0]': 'swish',
       success_url: `${config.origin}/butik/tack?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${config.origin}/butik?betalning=avbruten`,
       'metadata[orderId]': order.id,
@@ -202,6 +209,7 @@ async function handle(req, res) {
       params.set(`line_items[${index}][price_data][currency]`, 'sek');
       params.set(`line_items[${index}][price_data][unit_amount]`, String(item.amount));
       params.set(`line_items[${index}][price_data][product_data][name]`, item.title);
+      params.set(`line_items[${index}][price_data][product_data][description]`, `${item.format} · Digital nedladdning`);
       params.set(`line_items[${index}][quantity]`, '1');
     });
     const session = await stripeRequest('checkout/sessions', params, order.id);
@@ -221,7 +229,8 @@ async function handle(req, res) {
       order = readStore().orders[order.id];
     }
     send(res, 200, {
-      id: order.id, status: order.status, total: order.amount / 100,
+      id: order.id, status: order.status, total: order.amount / 100, createdAt: order.createdAt,
+      termsVersion: order.termsVersion, digitalDeliveryConsentAt: order.digitalDeliveryConsentAt,
       items: order.items.map(item => ({ id: item.id, title: item.title, format: item.format, ...(order.status === 'paid' ? { downloadUrl: `/api/downloads/${order.id}/${item.assetId}` } : {}) })),
     }); return;
   }

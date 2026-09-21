@@ -5,6 +5,7 @@ import {
   ChevronDownIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
+import { business } from "../legal/business";
 
 interface FaqItem {
   q: string;
@@ -155,7 +156,7 @@ export default function FAQComponent() {
               Här är det viktigaste om Karnor, verktygen och tanken bakom.
             </p>
             <a
-              href="mailto:karnor@test.se"
+              href={business.email ? `mailto:${business.email}` : "/kontakt"}
               className="mt-7 inline-flex items-center gap-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
             >
               Skicka en fråga

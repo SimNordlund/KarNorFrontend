@@ -4,6 +4,7 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { ArrowRightIcon, CheckCircleIcon, DocumentArrowDownIcon, LockClosedIcon, ShoppingBagIcon, TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
+import { sellerConfigured } from '../legal/business';
 import { ShopContext } from './ShopContext';
 import { useCatalog } from './CatalogContext';
 import type { Material } from './materials';
@@ -26,11 +27,13 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedDigitalDelivery, setAcceptedDigitalDelivery] = useState(false);
   const noticeTimer = useRef<ReturnType<typeof setTimeout>>();
   const checkoutRequest = useRef({ key: '', id: '' });
   const cart = cartIds.flatMap(id => catalog.products.filter(product => product.id === id && product.status === 'published'));
   const total = cart.reduce((sum, item) => sum + Math.round(item.price * 100), 0) / 100;
-  const canCheckout = Boolean(catalog.checkoutConfigured && cart.length && cart.every(item => item.canPurchase));
+  const canCheckout = Boolean(sellerConfigured && catalog.checkoutConfigured && cart.length && cart.every(item => item.canPurchase));
 
   useEffect(() => () => clearTimeout(noticeTimer.current), []);
   useEffect(() => { try { localStorage.setItem('karnor-cart', JSON.stringify(cartIds)); } catch { /* Keep working without browser storage. */ } }, [cartIds]);
@@ -44,14 +47,19 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
     noticeTimer.current = setTimeout(() => setNotice(''), 4500);
   }
   async function checkout() {
-    if (!canCheckout || busy) return;
+    if (!canCheckout || !acceptedTerms || !acceptedDigitalDelivery || busy) return;
     setBusy(true);
     setError('');
     const key = JSON.stringify([catalog.revision, cart.map(item => item.id)]);
     if (checkoutRequest.current.key !== key) checkoutRequest.current = { key, id: crypto.randomUUID() };
     try {
       const result = await api<{ url: string }>('/api/checkout', {
-        method: 'POST', body: JSON.stringify({ productIds: cart.map(item => item.id), requestId: checkoutRequest.current.id }),
+        method: 'POST', body: JSON.stringify({
+          productIds: cart.map(item => item.id),
+          requestId: checkoutRequest.current.id,
+          acceptedTerms: true,
+          acceptedDigitalDelivery: true,
+        }),
       });
       const url = new URL(result.url);
       if (url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com') throw new Error('Betalningslänken kunde inte verifieras.');
@@ -64,6 +72,8 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
   function closeCart() {
     if (busy) return;
     setOpen(false);
+    setAcceptedTerms(false);
+    setAcceptedDigitalDelivery(false);
     checkoutRequest.current = { key: '', id: '' };
   }
 
@@ -72,7 +82,7 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
       cart, favorites, addToCart, completePurchase,
       removeFromCart: id => setCartIds(current => current.filter(item => item !== id)),
       toggleFavorite: id => setFavorites(current => current.includes(id) ? current.filter(item => item !== id) : [...current, id]),
-      openCart: () => { setError(''); setOpen(true); void refresh(); },
+      openCart: () => { setError(''); setAcceptedTerms(false); setAcceptedDigitalDelivery(false); setOpen(true); void refresh(); },
     }}>
       {children}
       <div className="shop-toast-region" role="status" aria-live="polite" aria-atomic="true">
@@ -98,11 +108,15 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
                 <button type="button" className="shop-icon-button" disabled={busy} onClick={() => setCartIds(current => current.filter(id => id !== item.id))} aria-label={`Ta bort ${item.title}`}><TrashIcon /></button>
               </li>)}</ul>
               <div className="shop-cart-total"><span>Totalt</span><strong>{formatPrice(total)}</strong></div>
-              <p className="shop-small-print">Priser i svenska kronor. Varje digitalt material läggs till en gång.</p>
-              {!canCheckout && <p className="site-notice">{catalog.checkoutConfigured ? 'Ta bort material som inte är tillgängliga för att fortsätta.' : 'Betalning är tillfälligt inte tillgänglig. Dina material ligger kvar i varukorgen.'}</p>}
+              <p className="shop-small-print">Priser i svenska kronor. Eventuell moms ingår. Digital leverans utan frakt.</p>
+              <div className="shop-checkout-consents">
+                <label><input type="checkbox" checked={acceptedTerms} onChange={event => setAcceptedTerms(event.target.checked)} /><span>Jag har läst och accepterar <Link to="/kopvillkor" target="_blank">köpvillkoren</Link>.</span></label>
+                <label><input type="checkbox" checked={acceptedDigitalDelivery} onChange={event => setAcceptedDigitalDelivery(event.target.checked)} /><span>Jag samtycker till att det digitala innehållet levereras direkt efter betalningen och godkänner att ångerrätten därmed upphör när leveransen börjar.</span></label>
+              </div>
+              {!canCheckout && <p className="site-notice">{!sellerConfigured ? 'Butiken öppnar för betalning när säljarens kontakt- och företagsuppgifter har lagts in.' : catalog.checkoutConfigured ? 'Ta bort material som inte är tillgängliga för att fortsätta.' : 'Betalning är tillfälligt inte tillgänglig. Dina material ligger kvar i varukorgen.'}</p>}
               {error && <p role="alert" className="site-error">{error}</p>}
-              <button type="button" className="shop-button shop-button--primary shop-button--full" disabled={!canCheckout || busy} onClick={() => void checkout()}>{busy ? 'Öppnar betalningen…' : 'Till säker betalning'} <ArrowRightIcon aria-hidden="true" /></button>
-              <p className="shop-small-print shop-centered"><LockClosedIcon className="site-inline-icon" aria-hidden="true" /> Betalningen hanteras av Stripe.</p>
+              <button type="button" className="shop-button shop-button--primary shop-button--full" disabled={!canCheckout || !acceptedTerms || !acceptedDigitalDelivery || busy} onClick={() => void checkout()}>{busy ? 'Öppnar betalningen…' : 'Till säker betalning'} <ArrowRightIcon aria-hidden="true" /></button>
+              <p className="shop-small-print shop-centered"><LockClosedIcon className="site-inline-icon" aria-hidden="true" /> Betalningen hanteras av Stripe. <Link to="/integritet" target="_blank">Så hanterar vi personuppgifter.</Link></p>
               <button type="button" className="shop-text-button shop-continue" disabled={busy} onClick={closeCart}>Fortsätt titta på material</button>
             </>}
           </DialogPanel>

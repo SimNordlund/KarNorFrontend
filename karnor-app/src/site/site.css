@@ -97,7 +97,7 @@ a.site-card:hover { border-color: #b9a9cb; transform: translateY(-2px); }
 .site-month-card h3 { font-size: 13px; font-weight: 600; margin: 24px 0 7px; }
 .site-month-card .shop-button { margin-top: 27px; }
 .site-footer { background: #f0edf2; margin-top: 15px; }
-.site-footer-main { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; padding: 45px 0; }
+.site-footer-main { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 40px; padding: 45px 0; }
 .site-footer-main > div p { color: #8c7f96; font-size: 12px; line-height: 1.9; margin-top: 18px; }
 .site-footer nav { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 12px; color: #88778f; }
 .site-footer nav strong { font-size: 11px; color: #625271; margin-bottom: 7px; }
@@ -116,10 +116,32 @@ a.site-card:hover { border-color: #b9a9cb; transform: translateY(-2px); }
 .site-order-files { display: grid; gap: 12px; margin: 30px 0; text-align: left; }
 .site-order-files a { display: flex; align-items: center; gap: 17px; padding: 21px; font-size: 14px; }
 .site-order-files small { display: block; color: #8b7a98; font-size: 11px; margin-top: 5px; }
+.site-order-confirmation { padding: 18px; margin: 22px 0; border: 1px solid #ded5e5; border-radius: 8px; background: #f4f0f6; text-align: left; }
+.site-order-confirmation strong { display: block; color: #625271; font-size: 12px; margin-bottom: 6px; }
+.site-order-confirmation p { color: #7c7087; font-size: 11px; line-height: 1.75; margin: 0 0 7px; }
+.site-order-confirmation a { color: #65548c; font-size: 11px; text-decoration: underline; }
+.site-order-confirmation-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
+.site-order-confirmation-actions .shop-text-button { display: inline-flex; align-items: center; gap: 6px; color: #65548c; font-size: 11px; text-decoration: underline; }
+.site-order-confirmation-actions svg { width: 15px; height: 15px; }
 .site-not-found { padding-top: 110px; padding-bottom: 110px; text-align: center; }
 .site-not-found h1 { margin: 20px 0; }
 .site-not-found p { color: #7f728a; }
 .site-not-found .site-actions { justify-content: center; }
+.site-legal { max-width: 980px; }
+.site-legal-updated { color: #8b7d94; font-size: 11px; margin: -14px 0 30px; }
+.site-legal > section { padding: 28px 0; border-top: 1px solid #e5dfe9; }
+.site-legal > section h2 { font: 27px/1.25 Georgia, serif; margin-bottom: 14px; }
+.site-legal > section h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; }
+.site-legal > section p, .site-legal > section li { color: #75697f; font-size: 13px; line-height: 1.9; }
+.site-legal > section p + p { margin-top: 12px; }
+.site-legal > section ul { list-style: disc; padding-left: 22px; }
+.site-legal > section a:not(.shop-button) { color: #65548c; text-decoration: underline; }
+.site-legal > section .shop-button { margin-top: 20px; }
+.site-contact-details { display: grid; gap: 1px; max-width: 680px; margin: 18px 0; border: 1px solid #e3dce8; border-radius: 8px; overflow: hidden; background: #e3dce8; }
+.site-contact-details > div { display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 13px 16px; background: #fffefa; font-size: 12px; }
+.site-contact-details dt { font-weight: 600; color: #5f526b; }
+.site-contact-details dd { color: #776a80; overflow-wrap: anywhere; }
+.site-legal-missing { color: #a34848; font-weight: 600; }
 @media (max-width: 1050px) {
   .site-desktop-nav { gap: 20px; }
   .site-header-inner, .site-container { padding-left: 28px; padding-right: 28px; }
@@ -147,7 +169,7 @@ a.site-card:hover { border-color: #b9a9cb; transform: translateY(-2px); }
   .site-year-wheel { justify-self: center; max-width: 460px; }
   .site-editorial { gap: 15px 30px; }
   .site-editorial h2 { font-size: 34px; }
-  .site-footer-main { grid-template-columns: 1.3fr 1fr 1fr; gap: 25px; }
+  .site-footer-main { grid-template-columns: 1.3fr repeat(3, 1fr); gap: 25px; }
 }
 @media (max-width: 560px) {
   .site-container, .site-header-inner { padding-left: 20px; padding-right: 20px; }
@@ -183,6 +205,7 @@ a.site-card:hover { border-color: #b9a9cb; transform: translateY(-2px); }
   .site-month-card h2 { font-size: 31px; }
   .site-footer-main { grid-template-columns: 1fr 1fr; }
   .site-footer-main > div { grid-column: 1 / -1; }
+  .site-contact-details > div { grid-template-columns: 1fr; gap: 3px; }
   .site-footer-bottom { flex-wrap: wrap; }
   .site-order h1 { font-size: 36px; }
   .site-order-files a { padding: 18px; }

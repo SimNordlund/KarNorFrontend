@@ -12,6 +12,14 @@ Webbplatsen har en React-klient och en Node-server. Servern hanterar produktregi
 4. `npm run dev` startar både Vite och API-servern. `/api` och `/media` går genom Vites proxy till port 3001.
 5. Öppna `/admin` och logga in. Länken Administration finns också i sidfoten.
 
+Ange även följande publika uppgifter vid frontend-bygget. De visas på kontakt-, köpvillkors- och integritetssidorna. Betalningsknappen är avstängd tills juridiskt namn, organisationsnummer, e-post och postadress finns.
+
+- `VITE_SELLER_LEGAL_NAME`
+- `VITE_SELLER_ORG_NUMBER`
+- `VITE_SELLER_EMAIL`
+- `VITE_SELLER_PHONE` (valfri)
+- `VITE_SELLER_ADDRESS`
+
 Kommandona är dokumenterade här men har inte körts vid implementationen.
 
 ## Produkter och kategorier
@@ -32,11 +40,11 @@ Ange `STRIPE_SECRET_KEY` och `STRIPE_WEBHOOK_SECRET` på servern. Lägg aldrig h
 
 Registrera webhook-adressen `https://din-domän.se/api/stripe/webhook` och händelserna `checkout.session.completed` samt `checkout.session.async_payment_succeeded`. Vid lokal utveckling kan Stripe CLI vidarebefordra till `http://localhost:3001/api/stripe/webhook`; använd då signeringshemligheten från den lokala lyssnaren.
 
-Klienten skickar endast produkt-ID:n och ett återförsöks-ID. Servern läser publicerad status, pris och säljfil från sitt eget register och skapar en Stripe Checkout-session i SEK. Betalmetoder hanteras i Stripe Dashboard. En oföränderlig kopia av orderrader och säljfiler sparas innan betalningen startas. Upprepade försök använder samma Stripe-idempotensnyckel.
+Klienten skickar produkt-ID:n, ett återförsöks-ID och kundens två aktiva samtycken. Servern kräver samtyckena, läser publicerad status, pris och säljfil från sitt eget register och skapar en Stripe Checkout-session i SEK med Swish som enda betalmetod. Swish måste även vara aktiverat på Stripe-kontot. En oföränderlig kopia av orderrader, säljfiler, villkorsversion och samtyckestid sparas innan betalningen startas. Upprepade försök använder samma Stripe-idempotensnyckel.
 
 En lyckad omdirigering betraktas inte som betalningsbevis. Servern bekräftar belopp, valuta och betald status via Stripe-signaturen/webhooken eller genom att hämta sessionen direkt från Stripe. Först därefter visas nedladdningslänkar. Kvitton via e-post konfigureras i Stripe; webbplatsen skickar inga egna mejl.
 
-Beställningssidan och säljfilerna är knutna till köparens HttpOnly-cookie i samma webbläsare, med en köpsession som gäller i 30 dagar. Köparen uppmanas att spara filerna. Kundkonton, återställning via e-post, refunderingar och en orderadministration ingår inte.
+Beställningssidan och säljfilerna är knutna till köparens HttpOnly-cookie i samma webbläsare, med en köpsession som gäller i 30 dagar. Köparen kan ladda ner en köpbekräftelse med orderuppgifter, villkorsversion och samtycke. Kundkonton, återställning via e-post, refunderingar och en orderadministration ingår inte.
 
 Referenser: [Checkout Sessions](https://docs.stripe.com/api/checkout/sessions/create), [webhooksignaturer](https://docs.stripe.com/webhooks/signature).
 
