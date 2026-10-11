@@ -1,0 +1,145 @@
+.year-page .site-page-intro { max-width: 920px; padding-bottom: 35px; }
+.year-page .site-page-intro h1 { max-width: 830px; font-size: clamp(38px, 4.6vw, 62px); }
+.year-page .site-page-intro > p { max-width: 650px; }
+
+.year-experience {
+  position: relative;
+  isolation: isolate;
+  padding: 32px;
+  border: 1px solid #e5dfe7;
+  border-radius: 28px;
+  background: #fffdf9;
+  box-shadow: 0 18px 65px #54406408;
+}
+.year-experience::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 18% 57%, var(--year-glow), transparent 65%);
+  opacity: .65;
+}
+.year-experience-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 4px 24px; border-bottom: 1px solid #e9e3e9; }
+.year-experience-header h2 { margin-top: 7px; font-size: 29px; line-height: 1.2; }
+.year-surprise { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border: 1px solid #dcd3e5; border-radius: 24px; background: #fffdfa; color: #65548c; font-size: 12px !important; transition: background .2s, transform .2s, box-shadow .2s; }
+.year-surprise svg { width: 17px; height: 17px; transition: transform .3s; }
+.year-surprise:hover { transform: translateY(-2px); background: #f3eef8; box-shadow: 0 5px 15px #65548c12; }
+.year-surprise:hover svg { transform: rotate(-12deg); }
+.year-experience-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; align-items: center; padding-top: 28px; }
+.year-wheel-column { min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.year-season-list { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+.year-season-list button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 7px 12px; border: 1px solid transparent; border-radius: 22px; color: #766b7d; background: transparent; font-size: 12px; transition: background .25s, color .25s, border-color .25s; }
+.year-season-list button svg { width: 17px; height: 17px; }
+.year-season-list button:hover { background: #ffffffa8; color: var(--year-ink); }
+.year-season-list button[aria-pressed=true] { color: var(--year-ink); border-color: var(--year-accent); background: #fffdfbd9; }
+
+.year-wheel { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1; margin: 10px auto 0; animation: year-wheel-arrive .85s cubic-bezier(.2, .7, .2, 1) both; }
+.year-wheel .year-wheel-art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.year-wheel-orbit { fill: none; stroke: var(--year-accent); stroke-width: 1; stroke-dasharray: 1 12; stroke-linecap: round; opacity: .35; transition: stroke .4s; }
+.year-wheel-inner-ring { fill: none; stroke: var(--year-accent); stroke-width: .8; opacity: .18; transition: stroke .4s; }
+.year-wheel-segment { fill: var(--month-soft); stroke: #fffdf9; stroke-width: 1.5; stroke-linejoin: round; transition: fill .35s; }
+.year-wheel-segment.is-selected { fill: var(--month-accent); }
+.year-wheel-pointer { position: absolute; inset: 4.5%; pointer-events: none; transform: rotate(var(--wheel-rotation)); transition: transform .75s cubic-bezier(.22, .8, .2, 1); }
+.year-wheel-pointer::before { content: ''; position: absolute; top: -4px; left: 50%; width: 11px; height: 11px; border: 3px solid #fffdf9; border-radius: 50%; background: var(--year-accent); box-shadow: 0 0 0 1px var(--year-accent), 0 3px 9px #54406420; transform: translateX(-50%); transition: background .35s, box-shadow .35s; }
+.year-wheel-center { position: absolute; inset: 22%; display: grid; place-items: center; border: 1px solid #ffffffcc; border-radius: 50%; background: #fffcf7e8; box-shadow: 0 10px 35px #67544709, inset 0 0 28px #fffdfa; pointer-events: none; }
+.year-center-content { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; animation: year-content-arrive .55s ease both; }
+.year-center-eyebrow { color: #8a7b8a; font-size: clamp(6px, .65vw, 9px); letter-spacing: .16em; text-transform: uppercase; }
+.year-center-content .year-season-scene { width: 79%; height: auto; margin-top: 3%; }
+.year-center-title { margin-top: -5%; color: var(--year-ink); font: italic clamp(25px, 3vw, 38px)/1.2 Georgia, serif; }
+.year-center-caption { width: 74%; margin-top: 6px; color: #766b7a; font-size: clamp(8px, .8vw, 11px); line-height: 1.5; }
+.year-scene-sun { transform-origin: 157px 40px; animation: year-sun-arrive 1.2s ease both; }
+.year-scene-canopy { transform-origin: 116px 123px; animation: year-canopy-arrive 1s ease both; }
+.year-scene-leaf { animation: year-leaf-arrive 1.8s ease both; }
+.year-scene-snow { animation: year-snow-arrive 1.6s ease both; }
+.year-month-button { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 12%; min-width: 44px; min-height: 44px; aspect-ratio: 1; padding: 3px 0; transform: translate(-50%, -50%); border-radius: 50%; color: var(--month-ink); background: transparent; line-height: 1.25 !important; transition: color .25s, transform .25s, background .25s; }
+.year-month-button > span { font-size: clamp(12px, 1.2vw, 16px); font-weight: 600; }
+.year-month-button > small { margin-top: 3px; font-size: 9px; letter-spacing: .08em; opacity: .8; }
+.year-month-button:hover { transform: translate(-50%, -50%) scale(1.1); background: #ffffff45; }
+.year-month-button[aria-pressed=true] { color: #fffdf9; }
+.year-month-button:focus-visible { outline-color: var(--month-ink); outline-offset: 2px; background: #ffffff45; }
+
+.year-wheel-controls { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: -3px; }
+.year-wheel-controls button { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #ddd5df; border-radius: 50%; background: #fffdf8; color: var(--year-ink); transition: background .2s, transform .2s; }
+.year-wheel-controls button svg { width: 17px; height: 17px; }
+.year-wheel-controls button:hover { background: var(--year-soft); transform: translateY(-2px); }
+.year-wheel-controls > span { min-width: 96px; text-align: center; }
+.year-wheel-controls strong { display: block; color: var(--year-ink); font: 22px/1.2 Georgia, serif; }
+.year-wheel-controls small { display: block; margin-top: 5px; color: #8a7d90; font-size: 9px; letter-spacing: .12em; }
+.year-current-month { margin-top: 15px; padding: 8px; color: #776c80; font-size: 11px !important; text-underline-offset: 4px; }
+.year-current-month:hover { color: var(--year-ink); text-decoration: underline; }
+
+.year-month-card { align-self: stretch; display: flex; align-items: center; min-width: 0; padding: 30px; border: 1px solid #e6e0e8; border-radius: 20px; background: #fffdfbef; box-shadow: 0 8px 30px #54406405; }
+.year-month-content { width: 100%; animation: year-content-arrive .45s cubic-bezier(.2, .7, .2, 1) both; }
+.year-month-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+.year-season-tag { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 20px; color: var(--year-ink); background: var(--year-soft); font-size: 11px; }
+.year-season-tag svg { width: 16px; height: 16px; }
+.year-month-number { color: var(--year-soft); font: 54px/.9 Georgia, serif; letter-spacing: -.05em; }
+.year-month-card .shop-eyebrow { color: var(--year-ink); font-size: 9px; }
+.year-month-card h2 { margin: 12px 0 18px; font-size: clamp(28px, 2.8vw, 37px); line-height: 1.16; }
+.year-month-description { color: #746a7b; font-size: 14px; line-height: 1.85; }
+.year-starting-idea { display: flex; align-items: flex-start; gap: 12px; margin-top: 25px; padding: 19px 17px; border-radius: 13px; background: var(--year-soft); }
+.year-idea-icon { display: grid; place-items: center; flex-shrink: 0; width: 29px; height: 29px; border: 1px solid #ffffffb3; border-radius: 50%; color: var(--year-ink); background: #fffdf86b; }
+.year-idea-icon svg { width: 16px; height: 16px; }
+.year-starting-idea h3, .year-reflection h3 { margin: 0 0 7px; font-size: 12px; font-weight: 600; color: var(--year-ink); }
+.year-starting-idea p { color: var(--year-ink); font-size: 13px; line-height: 1.75; }
+.year-reflection { margin-top: 23px; padding-left: 14px; border-left: 2px solid var(--year-soft); }
+.year-reflection p { color: #796d83; font-size: 12px; line-height: 1.8; }
+.year-month-card .year-planning-link { display: flex; margin-top: 26px; border: 1px solid var(--year-accent); color: #fffdf9; background: var(--year-accent); }
+.year-month-card .year-planning-link:hover { background: var(--year-ink); }
+.year-month-footnote { margin-top: 12px; text-align: center; color: #82758a; font: italic 11px/1.5 Georgia, serif; }
+
+@keyframes year-wheel-arrive { from { opacity: 0; transform: translateY(12px) scale(.96) rotate(-5deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0); } }
+@keyframes year-content-arrive { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes year-sun-arrive { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+@keyframes year-canopy-arrive { from { opacity: 0; transform: scale(.88) rotate(-4deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes year-leaf-arrive { from { opacity: 0; transform: translate(5px, -14px) rotate(-8deg); } to { opacity: 1; transform: translate(0, 0) rotate(0); } }
+@keyframes year-snow-arrive { from { opacity: 0; transform: translateY(-7px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 1050px) {
+  .year-experience { padding: 25px; }
+  .year-experience-layout { gap: 22px; }
+  .year-month-card { padding: 24px; }
+  .year-season-list { gap: 2px; }
+  .year-season-list button { padding-left: 9px; padding-right: 9px; }
+}
+@media (max-width: 800px) {
+  .year-experience-layout { grid-template-columns: 1fr; gap: 28px; }
+  .year-wheel-column { max-width: 520px; width: 100%; margin: auto; }
+  .year-center-eyebrow { font-size: 9px; }
+  .year-center-title { font-size: clamp(28px, 6vw, 38px); }
+  .year-center-caption { font-size: 11px; }
+  .year-month-button > span { font-size: 16px; }
+  .year-month-card { padding: 30px; }
+  .year-month-card h2 { max-width: 450px; font-size: 35px; }
+}
+@media (max-width: 560px) {
+  .year-experience { padding: 19px 12px; border-radius: 20px; }
+  .year-experience-header { align-items: flex-start; padding: 0 5px 19px; gap: 12px; }
+  .year-experience-header .shop-eyebrow { max-width: 130px; font-size: 8px; }
+  .year-experience-header h2 { font-size: 23px; }
+  .year-surprise { padding: 9px 11px; gap: 5px; white-space: nowrap; font-size: 10px !important; }
+  .year-surprise svg { width: 15px; height: 15px; }
+  .year-experience-layout { padding-top: 19px; gap: 23px; }
+  .year-season-list button { min-height: 40px; padding: 7px 9px; font-size: 11px; }
+  .year-season-list button svg { width: 15px; height: 15px; }
+  .year-wheel { margin-top: 8px; }
+  .year-center-eyebrow { font-size: 6px; letter-spacing: .1em; }
+  .year-center-title { font-size: 27px; }
+  .year-center-caption { margin-top: 4px; font-size: 8px; }
+  .year-month-button > span { font-size: 12px; }
+  .year-month-button > small { font-size: 8px; margin-top: 2px; }
+  .year-wheel-controls { gap: 20px; margin-top: 7px; }
+  .year-wheel-controls strong { font-size: 21px; }
+  .year-current-month { margin-top: 9px; font-size: 10px !important; }
+  .year-month-card { padding: 23px 20px; border-radius: 15px; }
+  .year-month-meta { margin-bottom: 19px; }
+  .year-month-number { font-size: 47px; }
+  .year-month-card h2 { font-size: 30px; }
+  .year-month-description { font-size: 13px; }
+  .year-starting-idea { padding: 16px 13px; gap: 9px; }
+  .year-starting-idea p { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .year-page *, .year-page *::before, .year-page *::after { animation: none !important; transition: none !important; }
+}
