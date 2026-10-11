@@ -122,7 +122,7 @@ export default function Hjul() {
 
   return (
     <main id="main-content" className="site-container year-page" style={seasonStyle}>
-      <PageIntro eyebrow="Årshjulet" title="Ett år av små, stora upptäckter." description="Från vinterns berättelser till sommarens äventyr. Välj en månad och låt årstiderna inspirera er planering, med barnens nyfikenhet som kompass." />
+      <PageIntro eyebrow="Årshjulet" title="Pedagogiska möjligheter genom hela året." description="Från vinterns berättelser till sommarens äventyr. Välj en månad och låt årstiderna inspirera er planering, med barnens nyfikenhet som kompass." />
 
       <section className="year-experience" aria-label="Utforska årshjulet">
         <header className="year-experience-header">
