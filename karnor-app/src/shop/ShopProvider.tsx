@@ -33,7 +33,7 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
   const checkoutRequest = useRef({ key: '', id: '' });
   const cart = cartIds.flatMap(id => catalog.products.filter(product => product.id === id && product.status === 'published'));
   const total = cart.reduce((sum, item) => sum + Math.round(item.price * 100), 0) / 100;
-  const canCheckout = Boolean(sellerConfigured && catalog.checkoutConfigured && cart.length && cart.every(item => item.canPurchase));
+  const canCheckout = Boolean(sellerConfigured && catalog.checkoutConfigured && total >= catalog.minimumCheckoutTotal && cart.length && cart.every(item => item.canPurchase));
 
   useEffect(() => () => clearTimeout(noticeTimer.current), []);
   useEffect(() => { try { localStorage.setItem('karnor-cart', JSON.stringify(cartIds)); } catch { /* Keep working without browser storage. */ } }, [cartIds]);
@@ -113,10 +113,11 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
                 <label><input type="checkbox" checked={acceptedTerms} onChange={event => setAcceptedTerms(event.target.checked)} /><span>Jag har läst och accepterar <Link to="/kopvillkor" target="_blank">köpvillkoren</Link>.</span></label>
                 <label><input type="checkbox" checked={acceptedDigitalDelivery} onChange={event => setAcceptedDigitalDelivery(event.target.checked)} /><span>Jag samtycker till att det digitala innehållet levereras direkt efter betalningen och godkänner att ångerrätten därmed upphör när leveransen börjar.</span></label>
               </div>
-              {!canCheckout && <p className="site-notice">{!sellerConfigured ? 'Butiken öppnar för betalning när säljarens kontakt- och företagsuppgifter har lagts in.' : catalog.checkoutConfigured ? 'Ta bort material som inte är tillgängliga för att fortsätta.' : 'Betalning är tillfälligt inte tillgänglig. Dina material ligger kvar i varukorgen.'}</p>}
+              {!canCheckout && <p className="site-notice">{!sellerConfigured ? 'Butiken öppnar för betalning när säljarens kontakt- och företagsuppgifter har lagts in.' : !catalog.checkoutConfigured ? 'Betalning är tillfälligt inte tillgänglig. Dina material ligger kvar i varukorgen.' : total < catalog.minimumCheckoutTotal ? `Minsta belopp för betalning med Swish är ${formatPrice(catalog.minimumCheckoutTotal)}.` : 'Ta bort material som inte är tillgängliga för att fortsätta.'}</p>}
               {error && <p role="alert" className="site-error">{error}</p>}
-              <button type="button" className="shop-button shop-button--primary shop-button--full" disabled={!canCheckout || !acceptedTerms || !acceptedDigitalDelivery || busy} onClick={() => void checkout()}>{busy ? 'Öppnar betalningen…' : 'Till säker betalning'} <ArrowRightIcon aria-hidden="true" /></button>
-              <p className="shop-small-print shop-centered"><LockClosedIcon className="site-inline-icon" aria-hidden="true" /> Betalningen hanteras av Stripe. <Link to="/integritet" target="_blank">Så hanterar vi personuppgifter.</Link></p>
+              <button type="button" className="shop-button shop-button--primary shop-button--full" disabled={!canCheckout || !acceptedTerms || !acceptedDigitalDelivery || busy} onClick={() => void checkout()}>{busy ? 'Öppnar Swish-betalningen…' : 'Betala med Swish'} <ArrowRightIcon aria-hidden="true" /></button>
+              <p className="shop-small-print shop-centered"><LockClosedIcon className="site-inline-icon" aria-hidden="true" /> Swish-betalningen hanteras av Stripe. <Link to="/integritet" target="_blank">Så hanterar vi personuppgifter.</Link></p>
+              {catalog.emailDeliveryConfigured && <p className="shop-small-print shop-centered">Dina material skickas även till e-postadressen du anger vid betalningen. Stora filer levereras med nedladdningslänkar i mejlet.</p>}
               <button type="button" className="shop-text-button shop-continue" disabled={busy} onClick={closeCart}>Fortsätt titta på material</button>
             </>}
           </DialogPanel>

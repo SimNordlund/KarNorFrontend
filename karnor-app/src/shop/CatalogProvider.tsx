@@ -5,7 +5,7 @@ import { CatalogContext } from './CatalogContext';
 import type { Catalog } from './materials';
 
 export default function CatalogProvider({ children }: { children: ReactNode }) {
-  const [catalog, setCatalog] = useState<Catalog>({ revision: 0, categories: [], products: [], checkoutConfigured: false });
+  const [catalog, setCatalog] = useState<Catalog>({ revision: 0, categories: [], products: [], minimumCheckoutTotal: 0, checkoutConfigured: false });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const request = useRef(0);
@@ -18,7 +18,7 @@ export default function CatalogProvider({ children }: { children: ReactNode }) {
       setError('');
     } catch {
       if (current !== request.current) return;
-      setCatalog(previous => ({ ...previous, checkoutConfigured: false }));
+      setCatalog(previous => ({ ...previous, checkoutConfigured: false, emailDeliveryConfigured: false }));
       setError('Butiken kunde inte uppdateras. Försök igen om en stund.');
     } finally { if (current === request.current) setLoading(false); }
   }, []);
