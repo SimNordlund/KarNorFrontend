@@ -2,6 +2,8 @@
 
 Webbplats, materialbutik och produktadministration. Se [CMS.md](CMS.md) för lokal start, uppladdningar, lagring och Stripe-konfiguration. Administrationssidan finns på `/admin` och butiken på `/butik`.
 
+Projektet innehåller bara frontend. Kotlin/Spring-projektet hanterar alla API-anrop, inloggning, lagring, betalningar och mejlleverans. `npm run dev` startar Vite och använder Spring på port 8080. `npm start` och `npm run preview` förhandsvisar en befintlig `dist`-mapp med samma proxy; Spring startas separat. Node används för frontendverktygen.
+
 ## Ursprunglig projektinformation: React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

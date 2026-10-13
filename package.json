@@ -10,8 +10,9 @@
     "postcss": "^8.0.0"        
   },
   "scripts": {
-    "dev": "vite",              
-    "build": "vite build",      
-    "serve": "vite preview"    
+    "dev": "npm --prefix karnor-app run dev",
+    "start": "npm --prefix karnor-app start",
+    "build": "npm --prefix karnor-app run build",
+    "serve": "npm --prefix karnor-app run preview"
   }
 }

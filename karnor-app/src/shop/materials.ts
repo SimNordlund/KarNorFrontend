@@ -25,7 +25,7 @@ export interface Material {
   preview?: { title: string; instruction: string; prompts: string[] };
 }
 
-export interface Catalog { revision: number; categories: string[]; products: Material[]; checkoutConfigured?: boolean; }
+export interface Catalog { revision: number; categories: string[]; products: Material[]; minimumCheckoutTotal: number; checkoutConfigured?: boolean; emailDeliveryConfigured?: boolean; }
 
 export const formatPrice = (price: number) => `${new Intl.NumberFormat('sv-SE').format(price)} kr`;
 

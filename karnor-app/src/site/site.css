@@ -123,6 +123,10 @@ a.site-card:hover { border-color: #b9a9cb; transform: translateY(-2px); }
 .site-order-confirmation-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
 .site-order-confirmation-actions .shop-text-button { display: inline-flex; align-items: center; gap: 6px; color: #65548c; font-size: 11px; text-decoration: underline; }
 .site-order-confirmation-actions svg { width: 15px; height: 15px; }
+.site-order-email { max-width: 680px; margin: 24px auto; text-align: left; }
+.site-order-email strong { display: block; overflow-wrap: anywhere; }
+.site-order-email p { margin: 7px 0 0; }
+.site-order-email .shop-text-button { margin-top: 10px; }
 .site-not-found { padding-top: 110px; padding-bottom: 110px; text-align: center; }
 .site-not-found h1 { margin: 20px 0; }
 .site-not-found p { color: #7f728a; }

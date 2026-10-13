@@ -15,12 +15,11 @@ export function ResourceLink({ title, description, filename }: { title: string; 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   async function download() {
-    const base = import.meta.env.MODE === 'kotlin' ? '' : import.meta.env.VITE_API_BASE_URL || '';
     const tab = window.open('about:blank', '_blank');
     setBusy(true); setError('');
     try {
       if (!tab) throw new Error('Tillåt en ny flik för att öppna dokumentet.');
-      const response = await fetch(`${base}/downloadPdfByFileName/${encodeURIComponent(filename)}`);
+      const response = await fetch(`/api/resources/pdfs/by-name/${encodeURIComponent(filename)}`);
       if (!response.ok || !response.headers.get('content-type')?.includes('application/pdf')) throw new Error('Dokumentet kunde inte hämtas. Försök igen senare.');
       const url = URL.createObjectURL(await response.blob());
       tab.location.href = url;
