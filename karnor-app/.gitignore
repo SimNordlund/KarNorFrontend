@@ -16,6 +16,7 @@ dist-ssr
 !.env.example
 # Preserve private data left by the removed server; Spring owns active storage.
 server/data/
+CMS.md
 
 # Editor directories and files
 .vscode/*
