@@ -5,6 +5,7 @@ import type { Material } from './materials';
 import { formatMaterialAge, formatMaterialMeta, formatPrice } from './materials';
 import { useShop } from './ShopContext';
 import MaterialCover from './MaterialCover';
+import { apiUrl } from '../api';
 
 export default function ProductDialog({ material, onClose }: { material: Material; onClose: () => void }) {
   const [page, setPage] = useState(0);
@@ -21,12 +22,12 @@ export default function ProductDialog({ material, onClose }: { material: Materia
         <div className="shop-product-preview">
           {material.image ? (
             <figure className="shop-image-preview">
-              <a href={material.image.src} target="_blank" rel="noopener noreferrer" aria-label={`Öppna ${material.title} i full storlek (ny flik)`}>
-                <img src={material.image.src} alt={material.image.alt} width={material.image.width} height={material.image.height} decoding="async" />
+              <a href={apiUrl(material.image.src)} target="_blank" rel="noopener noreferrer" aria-label={`Öppna ${material.title} i full storlek (ny flik)`}>
+                <img src={apiUrl(material.image.src)} alt={material.image.alt} width={material.image.width} height={material.image.height} decoding="async" />
               </a>
               <figcaption>
                 <span>Förhandsvisning av materialet</span>
-                <a className="shop-text-button" href={material.image.src} target="_blank" rel="noopener noreferrer">
+                <a className="shop-text-button" href={apiUrl(material.image.src)} target="_blank" rel="noopener noreferrer">
                   Öppna i full storlek <ArrowTopRightOnSquareIcon aria-hidden="true" />
                   <span className="sr-only">(öppnas i ny flik)</span>
                 </a>

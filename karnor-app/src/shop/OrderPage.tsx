@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowDownTrayIcon, CheckCircleIcon, ClockIcon } from '@heroicons/react/24/outline';
-import { api } from '../api';
+import { api, apiUrl } from '../api';
 import { business } from '../legal/business';
 import { useShop } from './ShopContext';
 import { formatPrice } from './materials';
@@ -89,7 +89,7 @@ export default function OrderPage() {
       {order.emailDelivery && <div className="site-order-email site-notice" role="status">
         {order.emailDelivery.status === 'sent' ? <><strong>Materialet har skickats till {order.emailDelivery.email}.</strong><p>{order.emailDelivery.attachmentCount > 0 ? 'Filerna är bifogade. Mejlet innehåller även skyddade nedladdningslänkar.' : 'Mejlet innehåller skyddade nedladdningslänkar eftersom filerna är för stora för att bifogas.'} Kontrollera även skräpposten.</p></> : order.emailDelivery.status === 'pending' ? <><strong>Vi förbereder ditt mejl till {order.emailDelivery.email}.</strong><p>Du kan ladda ner materialet här medan du väntar.</p><button type="button" className="shop-text-button" onClick={() => setAttempt(value => value + 1)}>Uppdatera mejlstatus</button></> : <><strong>Mejlleveransen kunde inte genomföras.</strong><p>Du kan fortfarande ladda ner dina filer här. <Link to="/kontakt">Kontakta oss</Link> om du behöver hjälp med mejlet.</p></>}
       </div>}
-      <div className="site-order-files">{order.items.map(item => <a key={item.id} href={item.downloadUrl} className="site-card"><ArrowDownTrayIcon aria-hidden="true" /><span>{item.title}<small>{item.format} · Ladda ner</small></span></a>)}</div>
+      <div className="site-order-files">{order.items.map(item => <a key={item.id} href={item.downloadUrl ? apiUrl(item.downloadUrl) : undefined} className="site-card"><ArrowDownTrayIcon aria-hidden="true" /><span>{item.title}<small>{item.format} · Ladda ner</small></span></a>)}</div>
       <p className="shop-small-print">Spara filerna på din enhet. Den här beställningssidan är tillgänglig i samma webbläsare så länge din köpsession finns kvar, som längst 30 dagar.</p>
       {order.digitalDeliveryConsentAt && <div className="site-order-confirmation"><strong>Bekräftelse av ditt samtycke</strong><p>Före betalningen samtyckte du aktivt till att det digitala innehållet levereras direkt och godkände att ångerrätten upphör när leveransen börjar. Köpvillkor version {order.termsVersion || '2026-09-21'} gäller för beställningen.</p><div className="site-order-confirmation-actions"><button type="button" className="shop-text-button" onClick={() => downloadConfirmation(order)}><ArrowDownTrayIcon aria-hidden="true" /> Ladda ner köpbekräftelse</button><Link to="/kopvillkor">Visa köpvillkoren</Link></div></div>}
     </> : <>

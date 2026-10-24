@@ -1,4 +1,5 @@
 import { AcademicCapIcon, LightBulbIcon,  PencilIcon } from '@heroicons/react/24/outline'
+import { apiFetch } from '../api';
 
 const features = [
   {
@@ -24,7 +25,7 @@ const features = [
 export default function PlaneringComponent() {
   const handleDownload = async (fileName: string) => {
     try {
-      const response = await fetch(`/api/resources/pdfs/by-name/${encodeURIComponent(fileName)}`, {
+      const response = await apiFetch(`/api/resources/pdfs/by-name/${encodeURIComponent(fileName)}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/pdf', // Expect a PDF file

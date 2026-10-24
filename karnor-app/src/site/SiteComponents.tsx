@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { apiFetch } from '../api';
 import { ArrowRightIcon, ArrowUpRightIcon, DocumentArrowDownIcon, HeartIcon } from '@heroicons/react/24/outline';
 
 export function PageIntro({ eyebrow, title, description, children }: { eyebrow: string; title: string; description: string; children?: ReactNode }) {
@@ -19,7 +20,7 @@ export function ResourceLink({ title, description, filename }: { title: string; 
     setBusy(true); setError('');
     try {
       if (!tab) throw new Error('Tillåt en ny flik för att öppna dokumentet.');
-      const response = await fetch(`/api/resources/pdfs/by-name/${encodeURIComponent(filename)}`);
+      const response = await apiFetch(`/api/resources/pdfs/by-name/${encodeURIComponent(filename)}`);
       if (!response.ok || !response.headers.get('content-type')?.includes('application/pdf')) throw new Error('Dokumentet kunde inte hämtas. Försök igen senare.');
       const url = URL.createObjectURL(await response.blob());
       tab.location.href = url;

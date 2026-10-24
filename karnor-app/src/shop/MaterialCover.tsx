@@ -1,4 +1,5 @@
 import type { Material, MaterialMotif } from './materials';
+import { apiUrl } from '../api';
 
 function CoverIllustration({ motif }: { motif: MaterialMotif }) {
   return (
@@ -64,7 +65,7 @@ export default function MaterialCover({ material, compact = false }: { material:
       <div className={`material-cover material-cover--${material.theme} material-cover--image${compact ? ' material-cover--compact' : ''}`} aria-hidden="true">
         <img
           className="material-cover-image"
-          src={material.image.src}
+          src={apiUrl(material.image.src)}
           alt=""
           width={material.image.width}
           height={material.image.height}

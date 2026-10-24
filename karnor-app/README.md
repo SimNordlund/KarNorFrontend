@@ -4,6 +4,8 @@ Webbplats, materialbutik och produktadministration. Se [CMS.md](CMS.md) för lok
 
 Projektet innehåller bara frontend. Kotlin/Spring-projektet hanterar alla API-anrop, inloggning, lagring, betalningar och mejlleverans. `npm run dev` startar Vite och använder Spring på port 8080. `npm start` och `npm run preview` förhandsvisar en befintlig `dist`-mapp med samma proxy; Spring startas separat. Node används för frontendverktygen.
 
+På Render ska frontendens byggvariabel `VITE_API_BASE_URL` vara `https://karnorbackend.onrender.com` och backendens `APP_URL` vara `https://karnor.onrender.com`. Klienten använder API-adressen för anrop, PDF:er och uppladdade bilder och skickar sessionscookies med anropen. Se [CMS.md](CMS.md) för cookies, publika nedladdningslänkar och alternativet med en proxy på samma origin.
+
 ## Ursprunglig projektinformation: React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
