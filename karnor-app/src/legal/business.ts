@@ -13,4 +13,4 @@ export const sellerConfigured = Boolean(
   business.legalName && business.organizationNumber && business.email && business.address,
 );
 
-export const termsVersion = '2026-10-11';
+export const termsVersion = '2026-10-26';
