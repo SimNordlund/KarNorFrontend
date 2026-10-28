@@ -50,7 +50,7 @@ export function ContactPage() {
   return <main id="main-content" className="site-container site-legal">
     <PageIntro eyebrow="Kontakt & reklamation" title="Vi hjälper dig med ditt köp." description="Kontakta Karnor om betalning, leverans, reklamation eller återbetalning." />
     <section><h2>Kontaktuppgifter</h2><ContactDetails /><p>Vi svarar så snart som möjligt på vardagar. Undvik att skicka känsliga personuppgifter eller fullständiga betalningsuppgifter via e-post.</p></section>
-    <section><h2>Reklamera ett digitalt material</h2><p>Skicka ditt namn, köpdatum, beställningsreferens, materialets namn och en tydlig beskrivning av problemet. Bifoga gärna en skärmbild, men skicka aldrig fullständiga kort- eller bankuppgifter.</p>{business.email && <a className="shop-button shop-button--primary" href={`mailto:${business.email}?subject=${encodeURIComponent('Reklamation av digitalt material')}`}>Skicka reklamation via e-post</a>}</section>
+    <section><h2>Reklamera ett digitalt material</h2><p>Skicka ditt namn, köpdatum, beställningsreferens, materialets namn och en tydlig beskrivning av problemet. Bifoga gärna en skärmbild, men skicka aldrig fullständiga kort- eller bankuppgifter.</p></section>
     <section><h2>Ångra eller avbryta ett köp</h2><p>Digitalt material levereras direkt efter betalningen. Om du uttryckligen har samtyckt till omedelbar leverans och godkänt att ångerrätten upphör finns normalt ingen ångerrätt efter att leveransen har börjat. Läs mer i <Link to="/kopvillkor">köpvillkoren</Link>.</p><p>Kontakta oss om leveransen inte har börjat eller om du anser att ångerrätten fortfarande gäller. Ange samma uppgifter som ovan och skriv tydligt att du vill frånträda avtalet.</p></section>
   </main>;
 }
